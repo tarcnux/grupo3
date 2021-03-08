@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+
+    <!-- Confitura a unidade de persistência: -->
+    <persistence-unit name="ProwayEM-PU">   <!-- Define o nome da PU; -->
+        <properties>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/prowayeventsmanager_db" />
+            <property name="javax.persistence.jdbc.user" value="mysql" />    <!-- Usuário do DB; -->
+            <property name="javax.persistence.jdbc.password" value="mysql" /> <!-- Senha do DB; -->
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect" />
+
+            <!-- Exibe o SQL gerado no console: -->
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.format_sql" value="true" />
+
+            <!-- validate | update | create | create-drop -->
+            <!--            <property name="hibernate.hbm2ddl.auto" value="update"/>-->
+
+        </properties>
+    </persistence-unit>
+
+
+
+</persistence>
