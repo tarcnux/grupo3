@@ -20,14 +20,4 @@ public class CoffeeRoomDao implements DaoPattern<CoffeeRoom> {
     public void save(CoffeeRoom coffeeRoom) {
 
     }
-
-    @Override
-    public void update(CoffeeRoom coffeeRoom) {
-
-    }
-
-    @Override
-    public void delete(CoffeeRoom coffeeRoom) {
-
-    }
 }

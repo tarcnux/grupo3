@@ -20,14 +20,4 @@ public class PersonDao implements DaoPattern<Person> {
     public void save(Person person) {
 
     }
-
-    @Override
-    public void update(Person person) {
-
-    }
-
-    @Override
-    public void delete(Person person) {
-
-    }
 }

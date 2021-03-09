@@ -20,14 +20,4 @@ public class EventRoomDao implements DaoPattern<EventRoom> {
     public void save(EventRoom eventRoom) {
 
     }
-
-    @Override
-    public void update(EventRoom eventRoom) {
-
-    }
-
-    @Override
-    public void delete(EventRoom eventRoom) {
-
-    }
 }
