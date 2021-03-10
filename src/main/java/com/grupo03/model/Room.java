@@ -1,6 +1,5 @@
 package com.grupo03.model;
 
-
 import javax.persistence.*;
 
 @MappedSuperclass
@@ -12,6 +11,8 @@ public abstract class Room {
     @Column(nullable = false)
     private String name;
 
+
+    // Getters | Setters:
 
     public int getId() {
         return id;
@@ -28,4 +29,5 @@ public abstract class Room {
     public void setName(String name) {
         this.name = name;
     }
+
 }

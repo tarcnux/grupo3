@@ -29,7 +29,7 @@ public class EventRoomPerson {
     private int stage;
 
 
-// Métodos getters e Setters
+    // Getters | Setters:
 
     public int getId() {
         return id;
@@ -62,4 +62,5 @@ public class EventRoomPerson {
     public void setStage(int stage) {
         this.stage = stage;
     }
+
 }

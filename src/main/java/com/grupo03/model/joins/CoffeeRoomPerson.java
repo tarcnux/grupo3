@@ -30,8 +30,8 @@ public class CoffeeRoomPerson {
     private int stage;
 
 
+    // Getters | Setters:
 
-    // Métodos getter e setters
     public int getId() {
         return id;
     }
@@ -39,7 +39,6 @@ public class CoffeeRoomPerson {
     public void setId(int id) {
         this.id = id;
     }
-
 
     public Person getPerson() {
         return person;
