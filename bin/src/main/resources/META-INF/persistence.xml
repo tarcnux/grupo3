@@ -6,13 +6,6 @@
 
     <!-- Confitura a unidade de persistência: -->
     <persistence-unit name="ProwayEM-PU">   <!-- Define o nome da PU; -->
-
-        <class>model.Room</class>
-        <class>model.Person</class>
-        <class>model.EventRoom</class>
-        <class>model.CoffeeRoom</class>
-
-        <class></class>
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/prowayeventsmanager_db" />
             <property name="javax.persistence.jdbc.user" value="mysql" />    <!-- Usuário do DB; -->
