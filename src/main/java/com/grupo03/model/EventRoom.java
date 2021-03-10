@@ -1,6 +1,6 @@
 package com.grupo03.model;
 
-import com.grupo03.model.joins.EventRoomHasPerson;
+import com.grupo03.model.joins.EventRoomPerson;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "tbEventsRoom")
+@Table(name = "tbEventRoom")
 public class EventRoom extends Room {
 
     //Variável do limite de pessoas que podem ser cadastradas na sala
@@ -19,10 +19,10 @@ public class EventRoom extends Room {
     @Transient
     List<Person> personList;
 
-    // Variável de refência para tabela EventRoomHasPerson
+    // Variável de referência para tabela EventRoomHasPerson
     @Transient
     @OneToMany(mappedBy = "eventRoom")
-    private Set<EventRoomHasPerson> eventHasPerson = new HashSet<EventRoomHasPerson>();
+    private Set<EventRoomPerson> eventRoomPerson = new HashSet<EventRoomPerson>();
 
 
     // Métodos getters/setters
@@ -34,12 +34,12 @@ public class EventRoom extends Room {
         this.capacity = capacity;
     }
 
-    public Set<EventRoomHasPerson> getEventHasPerson() {
-        return eventHasPerson;
+    public Set<EventRoomPerson> getEventRoomPerson() {
+        return eventRoomPerson;
     }
 
-    public void setEventHasPerson(Set<EventRoomHasPerson> eventHasPerson) {
-        this.eventHasPerson = eventHasPerson;
+    public void setEventRoomPerson(Set<EventRoomPerson> eventRoomPerson) {
+        this.eventRoomPerson = eventRoomPerson;
     }
 
 
@@ -48,7 +48,7 @@ public class EventRoom extends Room {
         return personList;
     }
 
-    //Método para definir a lista de possoas da sala
+    //Método para definir a lista de pessoas da sala
     public void setPersonList(List<Person> personList) {
         this.personList = personList;
     }

@@ -1,7 +1,7 @@
 package com.grupo03.model;
 
-import com.grupo03.model.joins.CoffeeRoomHasPerson;
-import com.grupo03.model.joins.EventRoomHasPerson;
+import com.grupo03.model.joins.CoffeeRoomPerson;
+import com.grupo03.model.joins.EventRoomPerson;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -13,7 +13,7 @@ import java.util.Set;
 @Table(name = "tbPerson")
 public class Person {
 
-    //Gera o id de person automáticamente
+    //Gera o id de person automaticamente
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idPerson")
     private int id;
@@ -27,16 +27,16 @@ public class Person {
     private String lastname;
 
     @Column
-    private int position;
+    private int seat;
 
-    //Variável de referência para a tabela EventRoomHasPerson
+    //Variável de referência para a tabela EventRoomPerson
     @Transient
     @OneToMany(mappedBy = "person")
-    private Set<EventRoomHasPerson> eventHasPerson = new HashSet<EventRoomHasPerson>();
+    private Set<EventRoomPerson> eventHasPerson = new HashSet<EventRoomPerson>();
 
     @Transient
     @OneToMany(mappedBy = "person")
-    private Set<CoffeeRoomHasPerson> coffeeHasPerson = new HashSet<CoffeeRoomHasPerson>();
+    private Set<CoffeeRoomPerson> coffeeRoomPerson = new HashSet<CoffeeRoomPerson>();
 
     @Transient
     private List<EventRoom> eventRoomList;
@@ -44,11 +44,17 @@ public class Person {
     @Transient
     private List<CoffeeRoom> coffeeRoomList;
 
-    //Contrutor da classe Person
-    public Person(String name, String lastname, int position){
+    //Construtor da classe Person
+    public Person(String name, String lastname, int seat){
         this.name = name;
         this.lastname = lastname;
-        this.position = position;
+        this.seat = seat;
+    }
+
+    //Construtor da classe Person sem seat
+    public Person(String name, String lastname){
+        this.name = name;
+        this.lastname = lastname;
     }
 
     //Métodos padrões get/set
@@ -76,19 +82,19 @@ public class Person {
         this.lastname = lastname;
     }
 
-    public int getPosition() {
-        return position;
+    public int getSeat() {
+        return seat;
     }
 
-    public void setPosition(int position) {
-        this.position = position;
+    public void setSeat(int seat) {
+        this.seat = seat;
     }
 
-    public Set<EventRoomHasPerson> getEventHasPerson() {
+    public Set<EventRoomPerson> getEventHasPerson() {
         return eventHasPerson;
     }
 
-    public void setEventHasPerson(Set<EventRoomHasPerson> eventHasPerson) {
+    public void setEventHasPerson(Set<EventRoomPerson> eventHasPerson) {
         this.eventHasPerson = eventHasPerson;
     }
 

@@ -6,13 +6,13 @@ import com.grupo03.model.Person;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tbCoffeeRoom_Has_Person")
-public class CoffeeRoomHasPerson {
+@Table(name = "tbCoffeeRoomPerson")
+public class CoffeeRoomPerson {
 
     // identificador da relação entre a tabela Person e CoffeeRoom
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idCoffeeHasPerson")
+    @Column(name = "idCoffeeRoomPerson")
     private int id;
 
     // Id da tabela Person
@@ -21,7 +21,7 @@ public class CoffeeRoomHasPerson {
     private Person person;
 
 
-    // Id da tabela CoffeRoom
+    // Id da tabela CoffeeRoom
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idRoom")
     private EventRoom coffeeRoom;

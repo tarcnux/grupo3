@@ -1,6 +1,6 @@
 package com.grupo03.model;
 
-import com.grupo03.model.joins.CoffeeRoomHasPerson;
+import com.grupo03.model.joins.CoffeeRoomPerson;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -17,15 +17,15 @@ public class CoffeeRoom extends Room{
 
     @Transient
     @OneToMany(mappedBy = "coffeeRoom")
-    private Set<CoffeeRoomHasPerson> coffeHasPerson = new HashSet<CoffeeRoomHasPerson>();
+    private Set<CoffeeRoomPerson> coffeRoomPerson = new HashSet<CoffeeRoomPerson>();
 
     // Métodos getters e setters
-    public Set<CoffeeRoomHasPerson> getCoffeHasPerson() {
-        return coffeHasPerson;
+    public Set<CoffeeRoomPerson> getCoffeRoomPerson() {
+        return coffeRoomPerson;
     }
 
-    public void setCoffeHasPerson(Set<CoffeeRoomHasPerson> coffeHasPerson) {
-        this.coffeHasPerson = coffeHasPerson;
+    public void setCoffeRoomPerson(Set<CoffeeRoomPerson> coffeRoomPerson) {
+        this.coffeRoomPerson = coffeRoomPerson;
     }
 
     //Método para buscar a lista de pessoas

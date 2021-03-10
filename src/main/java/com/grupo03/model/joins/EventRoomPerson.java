@@ -6,13 +6,13 @@ import com.grupo03.model.Person;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tbEventRoom_Has_Person")
-public class EventRoomHasPerson {
+@Table(name = "tbEventRoomPerson")
+public class EventRoomPerson {
 
     // identificador da relação entre a tabela Person e EventRoom
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idRoomHasPerson")
+    @Column(name = "idEventRoomPerson")
     private int id;
 
     // Id da tabela Person
