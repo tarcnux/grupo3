@@ -9,10 +9,11 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tbEventRoom")
+@AttributeOverride(name = "id", column = @Column(name = "idEventRoom"))
 public class EventRoom extends Room {
 
     //Variável do limite de pessoas que podem ser cadastradas na sala
-    @Column
+    @Column(nullable = false)
     private int capacity;
 
     // Lista das pessoas cadastradas na sala

@@ -9,6 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tbCoffeeRoom")
+@AttributeOverride(name = "id", column = @Column(name = "idCoffeeRoom"))
 public class CoffeeRoom extends Room{
 
     //variável para guardar a lista de pessoas da sala
@@ -17,15 +18,15 @@ public class CoffeeRoom extends Room{
 
     @Transient
     @OneToMany(mappedBy = "coffeeRoom")
-    private Set<CoffeeRoomPerson> coffeRoomPerson = new HashSet<CoffeeRoomPerson>();
+    private Set<CoffeeRoomPerson> coffeeRoomPerson = new HashSet<CoffeeRoomPerson>();
 
     // Métodos getters e setters
-    public Set<CoffeeRoomPerson> getCoffeRoomPerson() {
-        return coffeRoomPerson;
+    public Set<CoffeeRoomPerson> getCoffeeRoomPerson() {
+        return coffeeRoomPerson;
     }
 
-    public void setCoffeRoomPerson(Set<CoffeeRoomPerson> coffeRoomPerson) {
-        this.coffeRoomPerson = coffeRoomPerson;
+    public void setCoffeeRoomPerson(Set<CoffeeRoomPerson> coffeeRoomPerson) {
+        this.coffeeRoomPerson = coffeeRoomPerson;
     }
 
     //Método para buscar a lista de pessoas

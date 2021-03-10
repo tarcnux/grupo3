@@ -3,6 +3,7 @@ package com.grupo03.model;
 import com.grupo03.model.joins.CoffeeRoomPerson;
 import com.grupo03.model.joins.EventRoomPerson;
 
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
@@ -19,11 +20,11 @@ public class Person {
     private int id;
 
     //Gera a coluna name no banco
-    @Column
+    @Column(nullable = false)
     private String name;
 
     //Gera a coluna lastname no banco
-    @Column
+    @Column(nullable = false)
     private String lastname;
 
     @Column

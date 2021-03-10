@@ -22,10 +22,10 @@ public class EventRoomPerson {
 
     // Id da tabela EventRoom
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idRoom")
+    @JoinColumn(name = "idEventRoom")
     private EventRoom eventRoom;
 
-    @Column
+    @Column(nullable = false)
     private int stage;
 
 

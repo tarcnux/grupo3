@@ -1,15 +1,15 @@
 package com.grupo03.model;
 
+
 import javax.persistence.*;
 
 @MappedSuperclass
 public abstract class Room {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idRoom")
     private int id;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
 

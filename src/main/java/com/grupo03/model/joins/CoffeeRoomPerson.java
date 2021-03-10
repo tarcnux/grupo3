@@ -1,6 +1,6 @@
 package com.grupo03.model.joins;
 
-import com.grupo03.model.EventRoom;
+import com.grupo03.model.CoffeeRoom;
 import com.grupo03.model.Person;
 
 import javax.persistence.*;
@@ -23,10 +23,10 @@ public class CoffeeRoomPerson {
 
     // Id da tabela CoffeeRoom
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "idRoom")
-    private EventRoom coffeeRoom;
+    @JoinColumn(name = "idCoffeeRoom")
+    private CoffeeRoom coffeeRoom;
 
-    @Column
+    @Column(nullable = false)
     private int stage;
 
 
@@ -49,11 +49,11 @@ public class CoffeeRoomPerson {
         this.person = person;
     }
 
-    public EventRoom getCoffeeRoom() {
+    public CoffeeRoom getCoffeeRoom() {
         return coffeeRoom;
     }
 
-    public void setCoffeeRoom(EventRoom coffeeRoom) {
+    public void setCoffeeRoom(CoffeeRoom coffeeRoom) {
         this.coffeeRoom = coffeeRoom;
     }
 
