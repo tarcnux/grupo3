@@ -6,6 +6,7 @@ import javax.persistence.*;
 public abstract class Room {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idRoom")
     private int id;
 
     @Column

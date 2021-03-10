@@ -1,7 +1,11 @@
 package com.grupo03.model;
 
+import com.grupo03.model.joins.EventRoomHasPerson;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "tbEventsRoom")
@@ -15,6 +19,11 @@ public class EventRoom extends Room {
     @Transient
     List<Person> personList;
 
+    // Variável de refência para tabela EventRoomHasPerson
+    @Transient
+    @OneToMany(mappedBy = "eventRoom")
+    private Set<EventRoomHasPerson> eventHasPerson = new HashSet<EventRoomHasPerson>();
+
 
     // Métodos getters/setters
     public int getCapacity() {
@@ -23,6 +32,14 @@ public class EventRoom extends Room {
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+    }
+
+    public Set<EventRoomHasPerson> getEventHasPerson() {
+        return eventHasPerson;
+    }
+
+    public void setEventHasPerson(Set<EventRoomHasPerson> eventHasPerson) {
+        this.eventHasPerson = eventHasPerson;
     }
 
 
@@ -35,4 +52,6 @@ public class EventRoom extends Room {
     public void setPersonList(List<Person> personList) {
         this.personList = personList;
     }
+
+
 }
