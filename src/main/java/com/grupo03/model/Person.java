@@ -3,11 +3,9 @@ package com.grupo03.model;
 import com.grupo03.model.joins.CoffeeRoomPerson;
 import com.grupo03.model.joins.EventRoomPerson;
 
-
 import javax.persistence.*;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity
@@ -19,11 +17,9 @@ public class Person {
     @Column(name = "idPerson")
     private int id;
 
-    //Gera a coluna name no banco
     @Column(nullable = false)
     private String name;
 
-    //Gera a coluna lastname no banco
     @Column(nullable = false)
     private String lastname;
 
@@ -33,11 +29,11 @@ public class Person {
     //Variável de referência para a tabela EventRoomPerson
     @Transient
     @OneToMany(mappedBy = "person")
-    private Set<EventRoomPerson> eventHasPerson = new HashSet<EventRoomPerson>();
+    private List<EventRoomPerson> eventHasPerson = new ArrayList<>();
 
     @Transient
     @OneToMany(mappedBy = "person")
-    private Set<CoffeeRoomPerson> coffeeRoomPerson = new HashSet<CoffeeRoomPerson>();
+    private List<CoffeeRoomPerson> coffeeRoomPerson = new ArrayList<>();
 
     @Transient
     private List<EventRoom> eventRoomList;
@@ -58,7 +54,9 @@ public class Person {
         this.lastname = lastname;
     }
 
-    //Métodos padrões get/set
+
+    // Getters | Setters:
+
     public int getId() {
         return id;
     }
@@ -91,12 +89,20 @@ public class Person {
         this.seat = seat;
     }
 
-    public Set<EventRoomPerson> getEventHasPerson() {
+    public List<EventRoomPerson> getEventHasPerson() {
         return eventHasPerson;
     }
 
-    public void setEventHasPerson(Set<EventRoomPerson> eventHasPerson) {
+    public void setEventHasPerson(List<EventRoomPerson> eventHasPerson) {
         this.eventHasPerson = eventHasPerson;
+    }
+
+    public List<CoffeeRoomPerson> getCoffeeRoomPerson() {
+        return coffeeRoomPerson;
+    }
+
+    public void setCoffeeRoomPerson(List<CoffeeRoomPerson> coffeeRoomPerson) {
+        this.coffeeRoomPerson = coffeeRoomPerson;
     }
 
     public List<EventRoom> getEventRoomList() {
@@ -114,20 +120,5 @@ public class Person {
     public void setCoffeeRoomList(List<CoffeeRoom> coffeeRoomList) {
         this.coffeeRoomList = coffeeRoomList;
     }
-
-
-    //Método para pegar lista de salas de evento
-    public List<EventRoom> getEventRoomList(List<EventRoom> eventRoomList){
-        return eventRoomList;
-    };
-
-    //Método para buscar lista de salas de café
-
-    public List<CoffeeRoom> getEventCoffeeRoomList(List<CoffeeRoom> coffeeRoomList){
-        return coffeeRoomList;
-    };
-
-
-
 
 }
