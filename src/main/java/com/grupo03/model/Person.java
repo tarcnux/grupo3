@@ -2,12 +2,11 @@ package com.grupo03.model;
 
 import javax.persistence.*;
 import java.util.List;
-import java.io.Serializable;
+
 
 @Entity
+@Table(name = "tbPerson")
 public class Person {
-
-    private static final long serialVersionUID = 1L;
 
     //Gera o id de person automáticamente
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,20 +14,28 @@ public class Person {
 
     //Gera a coluna name no banco
     @Column
-    private String name;
+    private String lastname;
 
     //Gera a coluna lastname no banco
     @Column
-    private String lastname;
+    private String name;
 
     @Column
     private int position;
 
-    @ElementCollection
+    @Transient
     private List<EventRoom> eventRoomList;
 
-    @ElementCollection
+    @Transient
     private List<CoffeeRoom> coffeeRoomList;
+
+
+    public Person(String name, String lastname, int position){
+        this.name = name;
+        this.lastname = lastname;
+        this.position = position;
+
+    }
 
 
     //Métodos padrões get/set

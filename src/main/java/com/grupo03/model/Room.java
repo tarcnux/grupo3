@@ -2,7 +2,7 @@ package com.grupo03.model;
 
 import javax.persistence.*;
 
-@Entity
+@MappedSuperclass
 public abstract class Room {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
