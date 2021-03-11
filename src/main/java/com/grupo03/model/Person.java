@@ -41,6 +41,11 @@ public class Person {
     @Transient
     private List<CoffeeRoom> coffeeRoomList;
 
+    //Contrutor padrão da classe Person
+    public Person(){
+
+    }
+
     //Construtor da classe Person
     public Person(String name, String lastname, int seat){
         this.name = name;
@@ -53,6 +58,7 @@ public class Person {
         this.name = name;
         this.lastname = lastname;
     }
+
 
 
     // Getters | Setters:
