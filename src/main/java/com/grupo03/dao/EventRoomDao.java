@@ -15,8 +15,10 @@ public class EventRoomDao implements DaoPattern<EventRoom> {
     //Busca os dados da sala através do id inserido
     @Override
     public Optional<EventRoom> getById(int id) {
+        //Estabelecendo conexão com banco de dados
         EntityManager em = EntityManagerProvider.getEntityManager();
 
+        //Execução do método jpa "find" que busca o item baseado no id que foi passado
         EventRoom ev = em.find(EventRoom.class, id);
 
         return Optional.of(ev);
@@ -36,8 +38,13 @@ public class EventRoomDao implements DaoPattern<EventRoom> {
 
     @Override
     public void save(EventRoom eventRoom) {
+
+        //Estabelecendo conexão com banco de dados
         EntityManager em = EntityManagerProvider.getEntityManager();
 
+        //Usando os métodos do jpa "getTransaction().begin()" para permitir as inserções no banco
+        // e o método "persist()" para cadastrar a nova sala
+        //salvando o cadastro com a função getTransaction().commit()
         em.getTransaction().begin();
         em.persist(eventRoom);
         em.getTransaction().commit();
@@ -46,6 +53,8 @@ public class EventRoomDao implements DaoPattern<EventRoom> {
 
     //O Método busca a lista de todas as pessoas cadastradas em uma determinada sala e em cada Etapa
     public List<List<Person>> getUserRoom(String name) {
+
+        //Estabelecendo conexão com banco de dados
         EntityManager em = EntityManagerProvider.getEntityManager();
 
         //Query que busca o id da sala digitado pelo usuário
