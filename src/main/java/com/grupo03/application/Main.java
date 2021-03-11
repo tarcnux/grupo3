@@ -1,5 +1,6 @@
 package com.grupo03.application;
 
+import com.grupo03.model.Person;
 import com.grupo03.persistence.EntityManagerProvider;
 
 import javax.persistence.EntityManager;
