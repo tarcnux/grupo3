@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 @Table(name = "tbCoffeeRoom")
 @AttributeOverride(name = "id", column = @Column(name = "idCoffeeRoom"))
-public class CoffeeRoom extends Room{
+public class CoffeeRoom extends Room {
 
     // Lista de pessoas cadastradas no espaço:
     @Transient
@@ -18,7 +18,6 @@ public class CoffeeRoom extends Room{
     @Transient
     @OneToMany(mappedBy = "coffeeRoom")
     private List<CoffeeRoomPerson> coffeeRoomPerson = new ArrayList<>();
-
 
     // Getters | Setters:
 

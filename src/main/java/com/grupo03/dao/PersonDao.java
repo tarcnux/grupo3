@@ -14,7 +14,6 @@ public class PersonDao implements DaoPattern<Person> {
 
     @Override
     public Optional<Person> getById(int id) {
-        //create();
         this.em = EntityManagerProvider.getEntityManager();
 
         Person person = em.find(Person.class, id);

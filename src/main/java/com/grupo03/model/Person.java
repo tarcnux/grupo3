@@ -7,13 +7,13 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Entity
 @Table(name = "tbPerson")
 public class Person {
 
-    //Gera o id de person automaticamente
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // Gera o id de person automaticamente
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idPerson")
     private int id;
 
@@ -26,7 +26,7 @@ public class Person {
     @Column
     private int seat;
 
-    //Variável de referência para a tabela EventRoomPerson
+    // Variável de referência para a tabela EventRoomPerson
     @Transient
     @OneToMany(mappedBy = "person")
     private List<EventRoomPerson> eventHasPerson = new ArrayList<>();
@@ -41,19 +41,18 @@ public class Person {
     @Transient
     private List<CoffeeRoom> coffeeRoomList;
 
-    //Construtor da classe Person
-    public Person(String name, String lastname, int seat){
+    // Construtor da classe Person
+    public Person(String name, String lastname, int seat) {
         this.name = name;
         this.lastname = lastname;
         this.seat = seat;
     }
 
-    //Construtor da classe Person sem seat
-    public Person(String name, String lastname){
+    // Construtor da classe Person sem seat
+    public Person(String name, String lastname) {
         this.name = name;
         this.lastname = lastname;
     }
-
 
     // Getters | Setters:
 

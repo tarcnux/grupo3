@@ -20,7 +20,6 @@ public class CoffeeRoomPerson {
     @JoinColumn(name = "idPerson")
     private Person person;
 
-
     // Id da tabela CoffeeRoom
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idCoffeeRoom")
@@ -28,7 +27,6 @@ public class CoffeeRoomPerson {
 
     @Column(nullable = false)
     private int stage;
-
 
     // Getters | Setters:
 

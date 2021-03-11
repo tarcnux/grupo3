@@ -28,7 +28,6 @@ public class EventRoomPerson {
     @Column(nullable = false)
     private int stage;
 
-
     // Getters | Setters:
 
     public int getId() {

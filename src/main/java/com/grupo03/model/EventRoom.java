@@ -24,7 +24,6 @@ public class EventRoom extends Room {
     @OneToMany(mappedBy = "eventRoom")
     private List<EventRoomPerson> eventRoomPerson = new ArrayList<>();
 
-
     // Getters|setters:
 
     public int getCapacity() {
