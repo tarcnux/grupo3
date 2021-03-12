@@ -75,7 +75,7 @@ public class ApplicationGUI {
 
 
         String name,lastName,opcao;
-        int capMax=0,capAtual, aux;
+        int capMax,capAtual, aux;
 
         List<EventRoom> rooms;
         List<Person> pessoas;
@@ -132,13 +132,21 @@ public class ApplicationGUI {
     public static void getPersonList(){}
 
     //metodo de consultar sala de eventos
-    public static void getEventRoomList(){}
+    public static void getEventRoomList(){
+
+
+
+    }
 
     //metodo de consultar sala de café
     public static void getCoffeeRoomList(){}
 
     //metodo de alocar pessoas as salas
-    public static void setPersonRoom(){}
+    public static void setPersonRoom(){
+
+
+
+    }
 
     //limpar tela
     public static void limpar(){
@@ -147,7 +155,7 @@ public class ApplicationGUI {
 
     //metodo que inicia a aplicação, onde está localizado as opções do menu
     public static void start() {
-        int op=0;
+        int op;
         Scanner teclado = new Scanner(System.in);
         System.out.println("Seja Bem vindo!");
         System.out.println("Lembre-se deve ser cadastrado as salas antes das pessoas");
