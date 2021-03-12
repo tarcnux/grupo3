@@ -3,6 +3,7 @@ package com.grupo03.application;
 
 import com.grupo03.model.Person;
 import com.grupo03.persistence.EntityManagerProvider;
+import com.grupo03.view.ApplicationGUI;
 
 import javax.persistence.EntityManager;
 
@@ -19,7 +20,7 @@ public class Main {
         em.close();
 
         System.out.println("OK");
-
+        ApplicationGUI.start();
     }
 
 }

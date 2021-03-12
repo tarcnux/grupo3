@@ -1,8 +1,13 @@
 package com.grupo03.view;
 
+import com.grupo03.model.Person;
+import com.grupo03.dao.PersonDao;
+
 import java.io.IOException;
 import java.sql.SQLOutput;
+import java.util.List;
 import java.util.Scanner;
+
 
 public class ApplicationGUI {
     //metodo de cadastro de Salas de evento
@@ -55,21 +60,30 @@ public class ApplicationGUI {
     //metodo de cadastro de Pessoas
     public static void createPerson(){
         Scanner teclado = new Scanner(System.in);
-        String nome,sobrenome,opcao;
+        String name,lastName,opcao;
+        int capMax,capAtual;
 
+        Person person;
+        PersonDao savePerson = new PersonDao();
 
+ 
         do {
             System.out.println("Insira o nome:");
-            nome = teclado.nextLine();
+            name = teclado.nextLine();
 
             System.out.println("Insira o sobrenome:");
-            sobrenome = teclado.nextLine();
+            lastName = teclado.nextLine();
 
-            System.out.println("Nome: " + nome  + sobrenome);
+            System.out.println("Nome: " + name  + lastName);
+            person = new Person (name, lastName);
+            person.setName(name);
+            person.setLastname(lastName);
+            savePerson.save(person);
 
             System.out.println("Deseja inserir outra Pessoa?? S ou N");
             opcao = teclado.next();
             teclado.nextLine();
+
             limpar();
         }while(opcao.equalsIgnoreCase("S"));
 
