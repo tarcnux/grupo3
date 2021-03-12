@@ -1,5 +1,9 @@
 package com.grupo03.view;
 
+import com.grupo03.dao.CoffeeRoomDao;
+import com.grupo03.dao.EventRoomDao;
+import com.grupo03.model.CoffeeRoom;
+import com.grupo03.model.EventRoom;
 import com.grupo03.model.Person;
 import com.grupo03.dao.PersonDao;
 
@@ -13,18 +17,22 @@ public class ApplicationGUI {
     //metodo de cadastro de Salas de evento
     public static void createEventRooom(){
         Scanner teclado = new Scanner(System.in);
-        int capacidade;
-        String nome,opcao;
+        EventRoomDao eventController = new EventRoomDao();
+        EventRoom   eventRoom;
+        int capacity;
+        String name,opcao;
 
 
         do {
             System.out.println("Insira o nome da sala");
-            nome = teclado.nextLine();
+            name = teclado.nextLine();
 
             System.out.println("Insira a capacidade máxima da sala");
-            capacidade = teclado.nextInt();
+            capacity = teclado.nextInt();
 
-            System.out.println("Nome: " + nome + "capacidade máxima:" + capacidade);
+            System.out.println("Nome: " + name + "capacidade máxima:" + capacity);
+            eventRoom = new EventRoom(name,capacity);
+            eventController.save(eventRoom);
 
             System.out.println("Deseja inserir outra sala? S ou N");
             opcao = teclado.next();
@@ -38,16 +46,19 @@ public class ApplicationGUI {
     //metodo de cadastro de sala de café
     public static void createCoffeeRoom(){
         Scanner teclado = new Scanner(System.in);
-
-        String nome,opcao;
+        CoffeeRoomDao coffeeController = new CoffeeRoomDao();
+        CoffeeRoom coffeeRoom;
+        String name,opcao;
 
 
         do {
             System.out.println("Insira o nome da sala do Café");
-            nome = teclado.nextLine();
+            name = teclado.nextLine();
 
-            System.out.println("Nome: " + nome );
+            System.out.println("Nome: " + name );
 
+            coffeeRoom = new CoffeeRoom(name);
+            coffeeController.save(coffeeRoom);
             System.out.println("Deseja inserir outra sala do Café? S ou N");
             opcao = teclado.next();
             teclado.nextLine();
@@ -59,15 +70,38 @@ public class ApplicationGUI {
 
     //metodo de cadastro de Pessoas
     public static void createPerson(){
-        Scanner teclado = new Scanner(System.in);
-        String name,lastName,opcao;
-        int capMax,capAtual;
-
         Person person;
-        PersonDao savePerson = new PersonDao();
+        Scanner teclado = new Scanner(System.in);
 
- 
+
+        String name,lastName,opcao;
+        int capMax=0,capAtual, aux;
+
+        List<EventRoom> rooms;
+        List<Person> pessoas;
+
+        PersonDao personController = new PersonDao();
+        EventRoomDao roomController = new EventRoomDao();
+
+        pessoas = personController.getAll();
+        capAtual = pessoas.size();
+
+        rooms = roomController.getAll();
+        capMax = rooms.get(1).getCapacity();
+
+        //obter Capacidade Maxima
+        for (EventRoom room:rooms
+             ) {
+            aux=room.getCapacity();
+            if(capMax>aux){
+                capMax=aux;
+            }
+            
+        }        
+        capMax =capMax*rooms.size();
+
         do {
+            if(capAtual<capMax){
             System.out.println("Insira o nome:");
             name = teclado.nextLine();
 
@@ -78,16 +112,20 @@ public class ApplicationGUI {
             person = new Person (name, lastName);
             person.setName(name);
             person.setLastname(lastName);
-            savePerson.save(person);
+            personController.save(person);
 
             System.out.println("Deseja inserir outra Pessoa?? S ou N");
             opcao = teclado.next();
             teclado.nextLine();
 
             limpar();
+            }
+
+            else {
+                System.out.println("Capacidade Máxima atingida. Retornando ao menu inicial.");
+                opcao="N";
+            }
         }while(opcao.equalsIgnoreCase("S"));
-
-
     }
 
     //metodo de consultar Pessoas
