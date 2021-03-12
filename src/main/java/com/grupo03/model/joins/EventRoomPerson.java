@@ -4,6 +4,7 @@ import com.grupo03.model.EventRoom;
 import com.grupo03.model.Person;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tbEventRoomPerson")
@@ -15,18 +16,34 @@ public class EventRoomPerson {
     @Column(name = "idEventRoomPerson")
     private int id;
 
-    // Id da tabela Person
+    // Faz a associação com a entidade tbPerson:
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idPerson")
     private Person person;
 
-    // Id da tabela EventRoom
+    // Faz a associação com a entidade tbEventRoom:
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idEventRoom")
     private EventRoom eventRoom;
 
     @Column(nullable = false)
     private int stage;
+
+
+    // Construtores:
+
+    public EventRoomPerson() {
+    }
+
+    public EventRoomPerson(int id) {
+        this.id = id;
+    }
+
+    public EventRoomPerson(Person person, EventRoom eventRoom, int stage) {
+        this.person = person;
+        this.eventRoom = eventRoom;
+        this.stage = stage;
+    }
 
 
     // Getters | Setters:
@@ -61,6 +78,29 @@ public class EventRoomPerson {
 
     public void setStage(int stage) {
         this.stage = stage;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EventRoomPerson that = (EventRoomPerson) o;
+        return getId() == that.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
+
+    @Override
+    public String toString() {
+        return "EventRoomPerson{" +
+                "id=" + id +
+                ", " + person.toString() +
+                ", " + eventRoom.toString() +
+                ", stage=" + stage +
+                '}';
     }
 
 }
