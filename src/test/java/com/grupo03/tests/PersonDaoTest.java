@@ -2,6 +2,7 @@ package com.grupo03.tests;
 
 import com.grupo03.dao.PersonDao;
 import com.grupo03.model.Person;
+import junit.framework.AssertionFailedError;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -35,9 +36,9 @@ public class PersonDaoTest {
             System.out.print("[PASSED]: Método getById - PersonDao passou. " +
                     "Encontrado: " + person.get().getName());
 
-        } catch (AssertionError e) {
+        } catch (AssertionFailedError error) {
 
-            Assert.fail("[FAILED]: Método getById - PersonDao falhou. Falha: " + e.getMessage());
+            Assert.fail("[FAILED]: Método getById - PersonDao falhou. Falha: " + error.getMessage());
 
         }
     }
@@ -52,10 +53,10 @@ public class PersonDaoTest {
             Assert.assertFalse(personList.isEmpty());
             System.out.print("[PASSED]: Método getAll - PersonDao passou.");
 
-        } catch (AssertionError e) {
+        } catch (AssertionFailedError error) {
 
             Assert.fail("[FAILED]: Método getAll - PersonDao falhou. " +
-                    "Falha: " + e.getMessage());
+                    "Falha: " + error.getMessage());
 
         }
     }
@@ -68,8 +69,8 @@ public class PersonDaoTest {
             dao.save(personToSave);
             // Do something
 
-        } catch (AssertionError e) {
-            Assert.fail("[FAILED]: Método save - PersonDao falhou. Falha: " + e.getMessage());
+        } catch (AssertionFailedError error) {
+            Assert.fail("[FAILED]: Método save - PersonDao falhou. Falha: " + error.getMessage());
         }
     }
 }

@@ -16,13 +16,15 @@ public class EventRoomDaoTest {
     private final EventRoomDao dao = new EventRoomDao();
 
     @Before
-    public void setUp(){}
+    public void setUp() {
+    }
 
     @After
-    public void tearDown(){}
+    public void tearDown() {
+    }
 
     @Test
-    public void testEventRoomDaoGetById(){
+    public void testEventRoomDaoGetById() {
 
         int id = 1;
         Optional<EventRoom> eventRoom = dao.getById(id);
@@ -32,14 +34,16 @@ public class EventRoomDaoTest {
             Assert.assertTrue(eventRoom.isPresent());
             System.out.print("[PASSED]: Método getById - EventRoomDao passou.");
 
-        } catch (AssertionError e) {
+        } catch (AssertionError error) {
+
             Assert.fail();
-            Assert.fail("[FAILED]: Método getById - EventRoomDao falhou. Falha: " + e.getMessage());
+            Assert.fail("[FAILED]: Método getById - EventRoomDao falhou. Falha: " + error.getMessage());
+
         }
     }
 
     @Test
-    public void testEventRoomDaoGetAll(){
+    public void testEventRoomDaoGetAll() {
 
         List<EventRoom> eventRoomList = dao.getAll();
 
@@ -48,30 +52,45 @@ public class EventRoomDaoTest {
             Assert.assertFalse(eventRoomList.isEmpty());
             System.out.print("[PASSED]: Método getAll - EventRoomDao passou.");
 
-        } catch (AssertionError e) {
+        } catch (AssertionError error) {
+
             Assert.fail();
-            Assert.fail("[FAILED]: Método getAll - EventRoomDao falhou. Falha: " + e.getMessage());
+            Assert.fail("[FAILED]: Método getAll - EventRoomDao falhou. Falha: " + error.getMessage());
+
         }
     }
 
     @Test
-    public void testEventRoomDaoSave(){
+    public void testEventRoomDaoSave() {
 
         try {
 
             // Do something
+            System.out.print("[PASSED]: Método save - EventRoomDao passou.");
 
-        } catch (AssertionFailedError e) {
+        } catch (AssertionFailedError error) {
 
             Assert.fail();
-            Assert.fail("[FAILED]: Método save - EventRoomDao falhou. Falha: " + e.getMessage());
+            Assert.fail("[FAILED]: Método save - EventRoomDao falhou. Falha: " + error.getMessage());
 
         }
     }
 
     @Test
-    public void testEventRoomDaoGetUserRoom(){
+    public void testEventRoomDaoGetUserRoom() {
 
+        String roomName = "Sala 1";
 
+        try {
+
+            Assert.assertFalse(dao.getUserRoom(roomName).isEmpty());
+            System.out.print("[PASSED]: Método getUSerRoom - EventRoomDao passou.");
+
+        } catch (AssertionFailedError error) {
+
+            Assert.fail();
+            Assert.fail("[FAILED]: Método getUserRoom - EventRoomDao falhou. Falha: " + error.getMessage());
+
+        }
     }
 }

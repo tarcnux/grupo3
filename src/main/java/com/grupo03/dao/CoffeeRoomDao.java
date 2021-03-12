@@ -53,7 +53,7 @@ public class CoffeeRoomDao implements DaoPattern<CoffeeRoom> {
     }
 
     //O Método busca a lista de todas as pessoas cadastradas em uma determinada sala de café e em cada Etapa
-    public List<List<Person>> getUserCofeeRoom(String name) {
+    public List<List<Person>> getUserCoffeeRoom(String name) {
 
         //Estabelecendo conexão com banco de dados
         EntityManager em = EntityManagerProvider.getEntityManager();
