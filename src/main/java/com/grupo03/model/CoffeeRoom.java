@@ -11,13 +11,29 @@ import java.util.List;
 @AttributeOverride(name = "id", column = @Column(name = "idCoffeeRoom"))
 public class CoffeeRoom extends Room {
 
+    // Associação com a entidade tbCoffeeRoomPerson:
+    @Transient
+    @OneToMany(mappedBy = "coffeeRoom")
+    private List<CoffeeRoomPerson> coffeeRoomPersonList = new ArrayList<>();
+
     // Lista de pessoas cadastradas no espaço:
     @Transient
     List<Person> personList;
 
-    @Transient
-    @OneToMany(mappedBy = "coffeeRoom")
-    private List<CoffeeRoomPerson> coffeeRoomPerson = new ArrayList<>();
+
+    // Construtores:
+
+    public CoffeeRoom() {
+    }
+
+    public CoffeeRoom(int id) {
+        this.id = id;
+    }
+
+    public CoffeeRoom(String name) {
+        this.name = name;
+    }
+
 
     // Getters | Setters:
 
@@ -29,12 +45,20 @@ public class CoffeeRoom extends Room {
         this.personList = personList;
     }
 
-    public List<CoffeeRoomPerson> getCoffeeRoomPerson() {
-        return coffeeRoomPerson;
+    public List<CoffeeRoomPerson> getCoffeeRoomPersonList() {
+        return coffeeRoomPersonList;
     }
 
-    public void setCoffeeRoomPerson(List<CoffeeRoomPerson> coffeeRoomPerson) {
-        this.coffeeRoomPerson = coffeeRoomPerson;
+    public void setCoffeeRoomPersonList(List<CoffeeRoomPerson> coffeeRoomPersonList) {
+        this.coffeeRoomPersonList = coffeeRoomPersonList;
+    }
+
+    @Override
+    public String toString() {
+        return "CoffeeRoom{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 
 }

@@ -11,18 +11,35 @@ import java.util.List;
 @AttributeOverride(name = "id", column = @Column(name = "idEventRoom"))
 public class EventRoom extends Room {
 
-    // Limite de pessoas cadastradas na sala:
+    // Limite de pessoas:
+    @Transient
     @Column(nullable = false)
     private int capacity;
+
+    // Associação com a entidade tbEventRoomPerson:
+    @Transient
+    @OneToMany(mappedBy = "eventRoom")
+    private List<EventRoomPerson> eventRoomPersonList = new ArrayList<>();
 
     // Lista de pessoas cadastradas na sala:
     @Transient
     List<Person> personList;
 
-    // Variável de referência para tabela EventRoomHasPerson
-    @Transient
-    @OneToMany(mappedBy = "eventRoom")
-    private List<EventRoomPerson> eventRoomPerson = new ArrayList<>();
+
+    // Construtores:
+
+    public EventRoom() {
+    }
+
+    public EventRoom(int id) {
+        this.id = id;
+    }
+
+    public EventRoom(String name, int capacity) {
+        this.name = name;
+        this.capacity = capacity;
+    }
+
 
     // Getters|setters:
 
@@ -42,12 +59,21 @@ public class EventRoom extends Room {
         this.personList = personList;
     }
 
-    public List<EventRoomPerson> getEventRoomPerson() {
-        return eventRoomPerson;
+    public List<EventRoomPerson> getEventRoomPersonList() {
+        return eventRoomPersonList;
     }
 
-    public void setEventRoomPerson(List<EventRoomPerson> eventRoomPerson) {
-        this.eventRoomPerson = eventRoomPerson;
+    public void setEventRoomPersonList(List<EventRoomPerson> eventRoomPersonList) {
+        this.eventRoomPersonList = eventRoomPersonList;
+    }
+
+    @Override
+    public String toString() {
+        return "EventRoom{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", capacity=" + capacity +
+                '}';
     }
 
 }
