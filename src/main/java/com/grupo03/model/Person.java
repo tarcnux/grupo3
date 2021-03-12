@@ -6,6 +6,7 @@ import com.grupo03.model.joins.EventRoomPerson;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "tbPerson")
@@ -26,14 +27,15 @@ public class Person {
     @Column
     private int seat;
 
-    // Variável de referência para a tabela EventRoomPerson
+    // Associação com a entidade tbEventRoomPerson:
     @Transient
     @OneToMany(mappedBy = "person")
-    private List<EventRoomPerson> eventHasPerson = new ArrayList<>();
+    private List<EventRoomPerson> eventRoomPersonList = new ArrayList<>();
 
+    // Associação com a entidade tbCoffeeRoomPerson:
     @Transient
     @OneToMany(mappedBy = "person")
-    private List<CoffeeRoomPerson> coffeeRoomPerson = new ArrayList<>();
+    private List<CoffeeRoomPerson> coffeeRoomPersonList = new ArrayList<>();
 
     @Transient
     private List<EventRoom> eventRoomList;
@@ -41,18 +43,27 @@ public class Person {
     @Transient
     private List<CoffeeRoom> coffeeRoomList;
 
-    // Construtor da classe Person
+
+    // Construtores:
+
+    public Person() {
+    }
+
+    public Person(int id) {
+        this.id = id;
+    }
+
+    public Person(String name, String lastname) {
+        this.name = name;
+        this.lastname = lastname;
+    }
+
     public Person(String name, String lastname, int seat) {
         this.name = name;
         this.lastname = lastname;
         this.seat = seat;
     }
 
-    // Construtor da classe Person sem seat
-    public Person(String name, String lastname) {
-        this.name = name;
-        this.lastname = lastname;
-    }
 
     // Getters | Setters:
 
@@ -88,20 +99,20 @@ public class Person {
         this.seat = seat;
     }
 
-    public List<EventRoomPerson> getEventHasPerson() {
-        return eventHasPerson;
+    public List<EventRoomPerson> getEventRoomPersonList() {
+        return eventRoomPersonList;
     }
 
-    public void setEventHasPerson(List<EventRoomPerson> eventHasPerson) {
-        this.eventHasPerson = eventHasPerson;
+    public void setEventRoomPersonList(List<EventRoomPerson> eventRoomPersonList) {
+        this.eventRoomPersonList = eventRoomPersonList;
     }
 
-    public List<CoffeeRoomPerson> getCoffeeRoomPerson() {
-        return coffeeRoomPerson;
+    public List<CoffeeRoomPerson> getCoffeeRoomPersonList() {
+        return coffeeRoomPersonList;
     }
 
-    public void setCoffeeRoomPerson(List<CoffeeRoomPerson> coffeeRoomPerson) {
-        this.coffeeRoomPerson = coffeeRoomPerson;
+    public void setCoffeeRoomPersonList(List<CoffeeRoomPerson> coffeeRoomPersonList) {
+        this.coffeeRoomPersonList = coffeeRoomPersonList;
     }
 
     public List<EventRoom> getEventRoomList() {
@@ -118,6 +129,29 @@ public class Person {
 
     public void setCoffeeRoomList(List<CoffeeRoom> coffeeRoomList) {
         this.coffeeRoomList = coffeeRoomList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return id == person.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", seat=" + seat +
+                '}';
     }
 
 }

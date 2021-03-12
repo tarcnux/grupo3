@@ -1,9 +1,19 @@
 package com.grupo03.application;
 
+
+import com.grupo03.dao.CoffeeRoomDao;
+import com.grupo03.dao.EventRoomDao;
+import com.grupo03.dao.PersonDao;
+import com.grupo03.model.CoffeeRoom;
+import com.grupo03.model.EventRoom;
 import com.grupo03.model.Person;
 import com.grupo03.persistence.EntityManagerProvider;
+import com.grupo03.view.ApplicationGUI;
 
 import javax.persistence.EntityManager;
+import java.sql.SQLOutput;
+import java.util.List;
+import java.util.Optional;
 
 public class Main {
 
@@ -18,7 +28,7 @@ public class Main {
         em.close();
 
         System.out.println("OK");
-
+        ApplicationGUI.start();
     }
 
 }
