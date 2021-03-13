@@ -46,16 +46,18 @@ public class EventRoomDao implements DaoPattern<EventRoom> {
     @Override
     public EventRoom save(EventRoom eventRoom) {
 
+        EventRoom result;
+
         em = EntityManagerProvider.getEntityManager();
 
         // Salva uma nova sala banco de dados:
         em.getTransaction().begin();
-        em.persist(eventRoom);
+        result = em.merge(eventRoom);
         em.getTransaction().commit();
 
         em.close();
 
-        return eventRoom;
+        return result;
     }
 
 }

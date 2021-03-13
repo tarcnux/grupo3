@@ -47,15 +47,17 @@ public class PersonDao implements DaoPattern<Person> {
     @Override
     public Person save(Person person) {
 
+        Person result;
+
         em = EntityManagerProvider.getEntityManager();
 
         // Salva uma nova pessoa no banco de dados:
         em.getTransaction().begin();
-        em.persist(person);
+        result = em.merge(person);
         em.getTransaction().commit();
 
         em.close();
 
-        return person;
+        return result;
         }
 }

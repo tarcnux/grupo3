@@ -47,16 +47,17 @@ public class CoffeeRoomDao implements DaoPattern<CoffeeRoom> {
     @Override
     public CoffeeRoom save(CoffeeRoom coffeeRoom) {
 
+        CoffeeRoom result;
         em = EntityManagerProvider.getEntityManager();
 
         // Salva uma nova sala de café no banco de dados:
         em.getTransaction().begin();
-        em.persist(coffeeRoom);
+        result = em.merge(coffeeRoom);
         em.getTransaction().commit();
 
         em.close();
 
-        return coffeeRoom;
+        return result;
     }
 
 }
