@@ -1,5 +1,6 @@
 package com.grupo03.view;
 
+import com.grupo03.dao.AlocationDao;
 import com.grupo03.dao.CoffeeRoomDao;
 import com.grupo03.dao.EventRoomDao;
 import com.grupo03.model.CoffeeRoom;
@@ -267,7 +268,12 @@ public class ApplicationGUI {
     //metodo de alocar pessoas as salas
     public static void setPersonRoom(){
 
+        PersonDao listPerson = new PersonDao();
+        List<Person> people = listPerson.getAll();
 
+        AlocationDao ad = new AlocationDao(people);
+
+        ad.alocar();
 
     }
 
