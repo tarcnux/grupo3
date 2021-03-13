@@ -9,6 +9,6 @@ public interface DaoPattern<T> {
 
     List<T> getAll();
 
-    void save(T t);
+    T save(T t);
 
 }
