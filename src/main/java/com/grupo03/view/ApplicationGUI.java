@@ -6,6 +6,7 @@ import com.grupo03.model.CoffeeRoom;
 import com.grupo03.model.EventRoom;
 import com.grupo03.model.Person;
 import com.grupo03.dao.PersonDao;
+import com.grupo03.persistence.EntityManagerProvider;
 
 import java.util.Comparator;
 import java.util.List;
@@ -81,8 +82,8 @@ public class ApplicationGUI {
         List<EventRoom> rooms;
         List<Person> pessoas;
 
-        PersonDao personController = new PersonDao();
-        EventRoomDao roomController = new EventRoomDao();
+        var personController = new PersonDao();
+        var roomController = new EventRoomDao();
 
         pessoas = personController.getAll();
         capAtual = pessoas.size();
@@ -130,17 +131,138 @@ public class ApplicationGUI {
     }
 
     //metodo de consultar Pessoas
-    public static void getPersonList(){}
+    public static void getPersonList(){
+
+        Scanner teclado = new Scanner(System.in);
+        var em = EntityManagerProvider.getEntityManager();
+        int opcao;
+
+        var pController = new PersonDao();
+
+        List<Person> persons;
+        persons = pController.getAll();
+
+        Person person;
+
+        do{
+            limpar();
+            System.out.println("Selecione a pessoa na lista abaixo:\n\n");
+            int aux=1;
+            for (Person p:persons) {
+                System.out.println(aux+") "+ p.getName()+" "+p.getLastname());
+                aux++;
+            }
+            System.out.println("Digite: ");
+            opcao = teclado.nextInt();
+            int id;
+            id = persons.get(opcao-1).getId();
+            person = em.find(Person.class,id);
+            System.out.println("Etapa 1"
+                    +"\nSala de Evento: "+ person.getEventRoomPersonList().get(0).getEventRoom().getName()
+                    +"\nSala de Café: "+ person.getCoffeeRoomPersonList().get(0).getCoffeeRoom().getName()
+                    +"\n\nEtapa 2"
+                    +"\nSala de Evento: "+ person.getEventRoomPersonList().get(1).getEventRoom().getName()
+                    +"\nSala de Café: "  + person.getCoffeeRoomPersonList().get(1).getCoffeeRoom().getName()
+                );
+
+
+            System.out.println("\n\nDeseja consultar outra pessoa?\n1)Sim\n2)Não\nDigite:");
+            opcao=teclado.nextInt();
+        }while(opcao!=2);
+   }
 
     //metodo de consultar sala de eventos
     public static void getEventRoomList(){
+        var em = EntityManagerProvider.getEntityManager();
+        var teclado = new Scanner(System.in);
+        int opcao;
 
+        var ercontroller = new EventRoomDao();
+
+        List<EventRoom> eventrooms;
+        eventrooms = ercontroller.getAll();
+
+        EventRoom ev1;
+        do{
+
+        System.out.println("Qual sala você deseja consultar?\nDigite:");
+
+        int aux=1;
+        //imprime todas as salas na tela
+        for (EventRoom ev:eventrooms
+             ) {
+            System.out.println(aux+")" +ev.getName());
+            aux++;
+        }
+
+        System.out.println("Digite: ");
+
+        opcao=teclado.nextInt();
+
+        int id;
+
+        id = eventrooms.get(opcao-1).getId();
+
+        ev1 = em.find(EventRoom.class,id);
+        //imprime as pessoas na sala
+        System.out.println("Etapa 1");
+        ev1.getPersonList(1).forEach(e -> System.out.println(e.getName()+" " +e.getLastname()));
+        System.out.println("");
+        System.out.println("Etapa 2");
+        ev1.getPersonList(2).forEach(e -> System.out.println(e.getName()+" " +e.getLastname()));
+
+        System.out.println("\n\n\nDeseja buscar outra sala?\n1)Sim\n2)Não\nDigite:");
+        opcao= teclado.nextInt();
+        }while(opcao!=2);
+}
+
+
+
+    //metodo de consultar sala de café
+    public static void getCoffeeRoomList(){
+
+        var em = EntityManagerProvider.getEntityManager();
+        var teclado = new Scanner(System.in);
+        int opcao;
+
+        var cfcontroller = new CoffeeRoomDao();
+
+        List<CoffeeRoom> coffeerooms;
+        coffeerooms = cfcontroller.getAll();
+
+        CoffeeRoom ev1;
+        do{
+
+            System.out.println("Qual sala do café você deseja consultar?\nDigite:");
+
+            int aux=1;
+            //imprime todas as salas na tela
+            for (CoffeeRoom cr:coffeerooms
+            ) {
+                System.out.println(aux+")" +cr.getName());
+                aux++;
+            }
+            System.out.println("Digite: ");
+            opcao=teclado.nextInt();
+
+            int id;
+
+            id = coffeerooms.get(opcao-1).getId();
+
+            ev1 = em.find(CoffeeRoom.class,id);
+            //imprime as pessoas na sala
+            System.out.println("Etapa 1");
+            ev1.getPersonList(1).forEach(e -> System.out.println(e.getName()+" " +e.getLastname()));
+            System.out.println("");
+            System.out.println("Etapa 2");
+            ev1.getPersonList(2).forEach(e -> System.out.println(e.getName()+" " +e.getLastname()));
+
+            System.out.println("\n\n\nDeseja buscar outra sala?\n1)Sim\n2)Não\nDigite:");
+            opcao= teclado.nextInt();
+        }while(opcao!=2);
 
 
     }
-
-    //metodo de consultar sala de café
-    public static void getCoffeeRoomList(){}
 
     //metodo de alocar pessoas as salas
     public static void setPersonRoom(){

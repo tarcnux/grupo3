@@ -35,7 +35,7 @@ public class CoffeeRoomDao implements DaoPattern<CoffeeRoom> {
         em = EntityManagerProvider.getEntityManager();
 
         // Consulta e armazena a lista de salas de café cadastradas:
-        Query consulta = em.createNativeQuery("SELECT * FROM tbEventRoom",CoffeeRoom.class);
+        Query consulta = em.createNativeQuery("SELECT * FROM tbCoffeeRoom",CoffeeRoom.class);
         coffeeRoomList = consulta.getResultList();
 
         em.close();
