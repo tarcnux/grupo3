@@ -45,7 +45,7 @@ public class CoffeeRoomDao implements DaoPattern<CoffeeRoom> {
 
     //Cadastra uma nova sala de café no banco de dados
     @Override
-    public void save(CoffeeRoom coffeeRoom) {
+    public CoffeeRoom save(CoffeeRoom coffeeRoom) {
 
         em = EntityManagerProvider.getEntityManager();
 
@@ -55,6 +55,8 @@ public class CoffeeRoomDao implements DaoPattern<CoffeeRoom> {
         em.getTransaction().commit();
 
         em.close();
+
+        return coffeeRoom;
     }
 
 }

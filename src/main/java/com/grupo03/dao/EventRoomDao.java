@@ -44,7 +44,7 @@ public class EventRoomDao implements DaoPattern<EventRoom> {
     }
 
     @Override
-    public void save(EventRoom eventRoom) {
+    public EventRoom save(EventRoom eventRoom) {
 
         em = EntityManagerProvider.getEntityManager();
 
@@ -54,6 +54,8 @@ public class EventRoomDao implements DaoPattern<EventRoom> {
         em.getTransaction().commit();
 
         em.close();
+
+        return eventRoom;
     }
 
 }

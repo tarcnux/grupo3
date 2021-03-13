@@ -45,7 +45,7 @@ public class PersonDao implements DaoPattern<Person> {
     }
 
     @Override
-    public void save(Person person) {
+    public Person save(Person person) {
 
         em = EntityManagerProvider.getEntityManager();
 
@@ -55,5 +55,7 @@ public class PersonDao implements DaoPattern<Person> {
         em.getTransaction().commit();
 
         em.close();
-    }
+
+        return person;
+        }
 }
