@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 public class PersonDao implements DaoPattern<Person> {
 
@@ -14,31 +15,45 @@ public class PersonDao implements DaoPattern<Person> {
 
     @Override
     public Optional<Person> getById(int id) {
-        this.em = EntityManagerProvider.getEntityManager();
 
-        Person person = em.find(Person.class, id);
+        Person person;
 
-        return Optional.of(person);
+        em = EntityManagerProvider.getEntityManager();
+
+        // Consulta a pessoa pelo id e armazena o resultado:
+        person = em.find(Person.class, id);
+
+        em.close();
+
+        return Optional.ofNullable(person);
     }
 
     @Override
     public List<Person> getAll() {
-        this.em = EntityManagerProvider.getEntityManager();
 
-        List<Person> result;
-        this.em = EntityManagerProvider.getEntityManager();
-        result = this.em.createNamedQuery("SELECT p FROM person AS p", Person.class).getResultList();
-        this.em.close();
+        List<Person> personList;
 
-        return result;
+        em = EntityManagerProvider.getEntityManager();
+
+        // Consulta e armazena a lista de pessoas cadastradas:
+        Query consulta = em.createNativeQuery("SELECT * FROM tbPerson", Person.class);
+        personList = consulta.getResultList();
+
+        em.close();
+
+        return personList;
     }
 
     @Override
     public void save(Person person) {
-        this.em = EntityManagerProvider.getEntityManager();
 
+        em = EntityManagerProvider.getEntityManager();
+
+        // Salva uma nova pessoa no banco de dados:
         em.getTransaction().begin();
         em.persist(person);
         em.getTransaction().commit();
+
+        em.close();
     }
 }
