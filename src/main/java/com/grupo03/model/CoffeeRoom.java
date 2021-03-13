@@ -5,6 +5,7 @@ import com.grupo03.model.joins.CoffeeRoomPerson;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "tbCoffeeRoom")
@@ -12,13 +13,8 @@ import java.util.List;
 public class CoffeeRoom extends Room {
 
     // Associação com a entidade tbCoffeeRoomPerson:
-    @Transient
     @OneToMany(mappedBy = "coffeeRoom")
     private List<CoffeeRoomPerson> coffeeRoomPersonList = new ArrayList<>();
-
-    // Lista de pessoas cadastradas no espaço:
-    @Transient
-    List<Person> personList;
 
 
     // Construtores:
@@ -37,20 +33,28 @@ public class CoffeeRoom extends Room {
 
     // Getters | Setters:
 
-    public List<Person> getPersonList() {
-        return personList;
-    }
-
-    public void setPersonList(List<Person> personList) {
-        this.personList = personList;
-    }
-
     public List<CoffeeRoomPerson> getCoffeeRoomPersonList() {
         return coffeeRoomPersonList;
     }
 
     public void setCoffeeRoomPersonList(List<CoffeeRoomPerson> coffeeRoomPersonList) {
         this.coffeeRoomPersonList = coffeeRoomPersonList;
+    }
+
+    public List<Person> getPersonList(int stage) {
+
+        // Busca a lista de pessoas associadas a pessoa pelo stage:
+        List<CoffeeRoomPerson> stageCoffeeRoomPersonList =
+                this.getCoffeeRoomPersonList().stream().
+                        filter(e -> e.getStage() == stage).
+                        collect(Collectors.toList());
+
+        var result = new ArrayList<Person>();
+        for (CoffeeRoomPerson coffeeRoomPerson : stageCoffeeRoomPersonList) {
+            result.add(coffeeRoomPerson.getPerson());
+        }
+
+        return result;
     }
 
     @Override

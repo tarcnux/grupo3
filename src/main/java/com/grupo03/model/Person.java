@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "tbPerson")
@@ -28,20 +29,12 @@ public class Person {
     private int seat;
 
     // Associação com a entidade tbEventRoomPerson:
-    @Transient
     @OneToMany(mappedBy = "person")
     private List<EventRoomPerson> eventRoomPersonList = new ArrayList<>();
 
     // Associação com a entidade tbCoffeeRoomPerson:
-    @Transient
     @OneToMany(mappedBy = "person")
     private List<CoffeeRoomPerson> coffeeRoomPersonList = new ArrayList<>();
-
-    @Transient
-    private List<EventRoom> eventRoomList;
-
-    @Transient
-    private List<CoffeeRoom> coffeeRoomList;
 
 
     // Construtores:
@@ -113,22 +106,6 @@ public class Person {
 
     public void setCoffeeRoomPersonList(List<CoffeeRoomPerson> coffeeRoomPersonList) {
         this.coffeeRoomPersonList = coffeeRoomPersonList;
-    }
-
-    public List<EventRoom> getEventRoomList() {
-        return eventRoomList;
-    }
-
-    public void setEventRoomList(List<EventRoom> eventRoomList) {
-        this.eventRoomList = eventRoomList;
-    }
-
-    public List<CoffeeRoom> getCoffeeRoomList() {
-        return coffeeRoomList;
-    }
-
-    public void setCoffeeRoomList(List<CoffeeRoom> coffeeRoomList) {
-        this.coffeeRoomList = coffeeRoomList;
     }
 
     @Override
