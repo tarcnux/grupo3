@@ -7,13 +7,14 @@ import com.grupo03.model.EventRoom;
 import com.grupo03.model.Person;
 import com.grupo03.dao.PersonDao;
 
-import java.io.IOException;
-import java.sql.SQLOutput;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 
 public class ApplicationGUI {
+
     //metodo de cadastro de Salas de evento
     public static void createEventRooom(){
         Scanner teclado = new Scanner(System.in);
@@ -63,7 +64,7 @@ public class ApplicationGUI {
             opcao = teclado.next();
             teclado.nextLine();
             limpar();
-        }while(opcao.equalsIgnoreCase("S"));
+        } while(opcao.equalsIgnoreCase("S"));
 
 
     }
@@ -75,7 +76,7 @@ public class ApplicationGUI {
 
 
         String name,lastName,opcao;
-        int capMax,capAtual, aux;
+        int capAtual;
 
         List<EventRoom> rooms;
         List<Person> pessoas;
@@ -87,38 +88,38 @@ public class ApplicationGUI {
         capAtual = pessoas.size();
 
         rooms = roomController.getAll();
-        capMax = rooms.get(1).getCapacity();
+//        capMax = rooms.get(0).getCapacity();1
 
-        //obter Capacidade Maxima
-        for (EventRoom room:rooms
-             ) {
-            aux=room.getCapacity();
-            if(capMax>aux){
-                capMax=aux;
-            }
-            
-        }        
-        capMax =capMax*rooms.size();
+        // Busca a menor capacidade de sala:
+        Optional<Integer> capMax =
+                rooms.stream().map(EventRoom::getCapacity).min(Comparator.naturalOrder());
+
+        int capacidadeMaxima = capMax.get();
+
+        capacidadeMaxima = capacidadeMaxima * rooms.size();
 
         do {
-            if(capAtual<capMax){
-            System.out.println("Insira o nome:");
-            name = teclado.nextLine();
+            if(capAtual<capacidadeMaxima){
 
-            System.out.println("Insira o sobrenome:");
-            lastName = teclado.nextLine();
+                System.out.println("Capacidade disponível: " + (capacidadeMaxima - capAtual));
+                System.out.println("Insira o nome:");
+                name = teclado.nextLine();
 
-            System.out.println("Nome: " + name  + lastName);
-            person = new Person (name, lastName);
-            person.setName(name);
-            person.setLastname(lastName);
-            personController.save(person);
+                System.out.println("Insira o sobrenome:");
+                lastName = teclado.nextLine();
 
-            System.out.println("Deseja inserir outra Pessoa?? S ou N");
-            opcao = teclado.next();
-            teclado.nextLine();
+                System.out.println("Nome: " + name  + lastName);
+                person = new Person (name, lastName);
+                person.setName(name);
+                person.setLastname(lastName);
+                personController.save(person);
 
-            limpar();
+                capAtual++;
+                System.out.println("Deseja inserir outra Pessoa?? S ou N");
+                opcao = teclado.next();
+                teclado.nextLine();
+
+                limpar();
             }
 
             else {
@@ -155,43 +156,45 @@ public class ApplicationGUI {
 
     //metodo que inicia a aplicação, onde está localizado as opções do menu
     public static void start() {
-        int op;
+        String op;
         Scanner teclado = new Scanner(System.in);
         System.out.println("Seja Bem vindo!");
         System.out.println("Lembre-se deve ser cadastrado as salas antes das pessoas");
         do {
             System.out.println("Selecione uma das opções abaixo: ");
-            System.out.println("" +
-                    "1)Cadastrar Salas\n" +
-                    "2)Cadastrar Salas de Café\n" +
-                    "3)Cadastrar Pessoas\n" +
-                    "4)Consultar Pessoas\n" +
-                    "5)Consultar Salas\n" +
-                    "6)Consultar Salas de Café\n" +
-                    "7)Alocar pessoas as salas\n"+
-                    "0)Sair\n");
-            op = teclado.nextInt();
+            System.out.print("" +
+                    "\t1)Cadastrar Salas\n" +
+                    "\t2)Cadastrar Salas de Café\n" +
+                    "\t3)Cadastrar Pessoas\n" +
+                    "\t4)Consultar Pessoas\n" +
+                    "\t5)Consultar Salas\n" +
+                    "\t6)Consultar Salas de Café\n" +
+                    "\t7)Alocar pessoas as salas\n"+
+                    "\t0)Sair\n\n" +
+                    "Digite: ");
+            op = teclado.nextLine();
+
             switch (op){
-                case 1: createEventRooom();
+                case "1": createEventRooom();
                         break;
-                case 2: createCoffeeRoom();
+                case "2": createCoffeeRoom();
                         break;
-                case 3: createPerson();
+                case "3": createPerson();
                         break;
-                case 4: getPersonList();
+                case "4": getPersonList();
                         break;
-                case 5: getEventRoomList();
+                case "5": getEventRoomList();
                         break;
-                case 6: getCoffeeRoomList();
+                case "6": getCoffeeRoomList();
                         break;
-                case 7: setPersonRoom();
+                case "7": setPersonRoom();
                         break;
-                case 0: break;
+                case "0": break;
                 default:
                     System.out.println("Opção Invalida");
            }
             limpar();
-        }while(op!=0);
+        }while(!op.equals("0"));
         System.out.println("Obrigado por usar o sistema!");
     }
 
