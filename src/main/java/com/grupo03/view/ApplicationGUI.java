@@ -9,6 +9,7 @@ import com.grupo03.model.Person;
 import com.grupo03.dao.PersonDao;
 import com.grupo03.persistence.EntityManagerProvider;
 
+import java.sql.SQLOutput;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -274,6 +275,9 @@ public class ApplicationGUI {
         AlocationDao ad = new AlocationDao(people);
 
         ad.alocar();
+
+
+        System.out.println("Usuários alocados com sucesso!!");
 
     }
 
