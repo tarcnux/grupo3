@@ -1,6 +1,6 @@
 package com.grupo03.view;
 
-import com.grupo03.dao.AlocationDao;
+import com.grupo03.dao.AllocationDao;
 import com.grupo03.dao.CoffeeRoomDao;
 import com.grupo03.dao.EventRoomDao;
 import com.grupo03.model.CoffeeRoom;
@@ -9,7 +9,6 @@ import com.grupo03.model.Person;
 import com.grupo03.dao.PersonDao;
 import com.grupo03.persistence.EntityManagerProvider;
 
-import java.sql.SQLOutput;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -282,7 +281,7 @@ public class ApplicationGUI {
 
         PersonDao listPerson = new PersonDao();
         List<Person> people = listPerson.getAll();
-        AlocationDao alok = new AlocationDao(people);
+        AllocationDao alok = new AllocationDao(people);
 
         alok.alocar();
 
