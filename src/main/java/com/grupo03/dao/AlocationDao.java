@@ -12,6 +12,18 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ *  Esta classe é responsável por fazer a alocação de uma lista de pessoas
+ *  em salas de eventos e em ambientes de café seguindo a Regra de Negócio
+ *  "A diferença de pessoas em cada sala deverá ser de no máximo 1 pessoa.
+ *  Para estimular a troca de conhecimentos, metade das pessoas precisam trocar
+ *  de sala entre as duas etapas do treinamento."
+ *
+ * {@link #alocar()} Percorre uma lista de pessoas e aloca nas salas por etapas
+ *
+ * @author Tarcísio Nunes (tarcnux)
+ * @author Guilherme Peyerl Florêncio (GuilhermePeyflo)
+ */
 public class AlocationDao {
         List<Person> listPerson;
 //        List<CoffeeRoom> listCoffeeRoom;
