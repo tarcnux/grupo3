@@ -177,9 +177,11 @@ public class ApplicationGUI {
                 System.out.println("Etapa 1"
                         +"\nSala de Evento: "+ person.getEventRoomPersonList().get(0).getEventRoom().getName()
                         +"\nSala de Café: "+ person.getCoffeeRoomPersonList().get(0).getCoffeeRoom().getName()
+                        +"\nAssento: "+ person.getSeat()
                         +"\n\nEtapa 2"
                         +"\nSala de Evento: "+ person.getEventRoomPersonList().get(1).getEventRoom().getName()
                         +"\nSala de Café: "  + person.getCoffeeRoomPersonList().get(1).getCoffeeRoom().getName()
+                        +"\nAssento: "+ person.getSeat()
                 );
 
                 System.out.println("\n\n\nDeseja buscar outra Pessoa?\n1)Sim\n2)Não\nDigite:");
