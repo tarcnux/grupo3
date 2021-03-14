@@ -15,7 +15,9 @@ import java.util.*;
 
 public class ApplicationGUI {
 
-    //metodo de cadastro de Salas de evento
+    /**
+     *
+     */
     public static void createEventRooom(){
         Scanner teclado = new Scanner(System.in);
         EventRoomDao eventController = new EventRoomDao();
@@ -144,7 +146,7 @@ public class ApplicationGUI {
 
         Scanner teclado = new Scanner(System.in);
         var em = EntityManagerProvider.getEntityManager();
-        int opcao;
+        int opcao = 0;
 
         var pController = new PersonDao();
 
@@ -181,8 +183,12 @@ public class ApplicationGUI {
                 System.out.println("A opção selecionada não é válida! Retonando ao Menu Principal");
                 opcao = 2;
             }catch (IndexOutOfBoundsException indexBound){
-                System.out.println("Selecione a opção 7 do menu Principal para executar a alocação de pessoas nas salas antes de fazer as consultas");
-                opcao = 2;
+                if (opcao > persons.size() || opcao < 1){
+                    System.out.println("O valor digitado não corresponde a uma pessoa da lista");
+                }else {
+                    System.out.println("A função de alocar pessoas nas salas não foi executada! Selecione a opção  no menu Principal");
+                    opcao = 2;
+                }
             }
         }while(opcao!=2);
    }
@@ -191,7 +197,7 @@ public class ApplicationGUI {
     public static void getEventRoomList(){
         var em = EntityManagerProvider.getEntityManager();
         var teclado = new Scanner(System.in);
-        int opcao;
+        int opcao = 0;
 
         var ercontroller = new EventRoomDao();
 
@@ -237,8 +243,12 @@ public class ApplicationGUI {
             System.out.println("A opção selecionada não é válida! Retonando ao Menu Principal");
             opcao = 2;
         }catch (IndexOutOfBoundsException indexBound){
-            System.out.println("Selecione a opção 7 do menu Principal para executar a alocação de pessoas nas salas antes de fazer as consultas");
-            opcao = 2;
+            if (opcao > eventrooms.size() || opcao < 1){
+                System.out.println("O valor digitado não corresponde a uma sala de eventos da lista");
+            }else {
+                System.out.println("A função de alocar pessoas nas salas não foi executada! Selecione a opção  no menu Principal");
+                opcao = 2;
+            }
         }
 
         }while(opcao!=2);
@@ -251,7 +261,7 @@ public class ApplicationGUI {
 
         var em = EntityManagerProvider.getEntityManager();
         var teclado = new Scanner(System.in);
-        int opcao;
+        int opcao = 0;
 
         var cfcontroller = new CoffeeRoomDao();
 
@@ -295,8 +305,12 @@ public class ApplicationGUI {
                 System.out.println("A opção selecionada não é válida! Retonando ao Menu Principal");
                 opcao = 2;
             }catch (IndexOutOfBoundsException indexBound){
-                System.out.println("Selecione a opção 7 do menu Principal para executar a alocação de pessoas nas salas antes de fazer as consultas");
-                opcao = 2;
+                if (opcao > coffeerooms.size() || opcao < 1){
+                    System.out.println("O valor digitado não corresponde a uma sala de eventos da lista");
+                }else {
+                    System.out.println("A função de alocar pessoas nas salas não foi executada! Selecione a opção  no menu Principal");
+                    opcao = 2;
+                }
             }
 
         }while(opcao!=2);
