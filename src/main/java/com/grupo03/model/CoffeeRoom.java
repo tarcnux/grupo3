@@ -7,32 +7,68 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Essa classe represeanta a entidade Espaço de Café (tbCoffeeRoom
+ * no banco de dados). Ela erda da classe Room que contém os atributos
+ * essenciais para um espaço de café ou sala no evento.</br>
+ * Essa classe faz associação muitos-para-muitos com a entidade pessoa
+ * (tbPerson no banco de dados), essa associação é definida pela classe
+ * CoffeeRoomPerson que representa uma tabela join (tbCoffeeRoomPerson
+ * no banco de dados).
+ * @see com.grupo03.model.Room
+ * @see com.grupo03.model.Person
+ * @see com.grupo03.model.joins.CoffeeRoomPerson
+ *
+ * {@link #getPersonList(int)} Retorna a lisata de pessoas cadastradas
+ * na sala pela etapa do evento
+ * {@link #getCoffeeRoomPersonList()}   Retorna a listas de cadastro das
+ * pessoas nos espaços de café
+ *
+ * @author  Carlos Eduardo Ribeiro
+ * @author  Guilherme Peyerl Florêncio
+ * @version 1.0
+ */
 @Entity
 @Table(name = "tbCoffeeRoom")
 @AttributeOverride(name = "id", column = @Column(name = "idCoffeeRoom"))
 public class CoffeeRoom extends Room {
 
-    // Associação com a entidade tbCoffeeRoomPerson:
+    /**
+     * Define a associação com a classe CoffeeRoomPeson que representa o
+     * relacionamento muitos-para-muitos entre as classes CoffeetRoom e
+     * Person.
+     */
     @OneToMany(mappedBy = "coffeeRoom")
     private List<CoffeeRoomPerson> coffeeRoomPersonList = new ArrayList<>();
 
-
-    // Construtores:
-
+    /**
+     * Construtor sem argumento.
+     */
     public CoffeeRoom() {
     }
 
+    /**
+     * Construtor do espaço de café especificando o id.
+     * @param id    O identificador do espaço de café no bannco de dados
+     *             (chave primária)
+     */
     public CoffeeRoom(int id) {
         this.id = id;
     }
 
+    /**
+     * Construtor do espaço de café especificando o nome.
+     * @param name  O nome do espaço de café
+     */
     public CoffeeRoom(String name) {
         this.name = name;
     }
 
-
-    // Getters | Setters:
-
+    /**
+     * Este método retorna uma lista dos relacionamentos que o espaço de
+     * café possui com a entidade pessoa.
+     * @return  Um List da classe CoffeeRoomPerson
+     */
     public List<CoffeeRoomPerson> getCoffeeRoomPersonList() {
         return coffeeRoomPersonList;
     }
@@ -41,6 +77,13 @@ public class CoffeeRoom extends Room {
         this.coffeeRoomPersonList = coffeeRoomPersonList;
     }
 
+    /**
+     * Este método retorna uma lista de pessoas cadastradas no espaço
+     * de café através da associação criada pela classe CoffeeRoomPerson
+     * e pela etapa.
+     * @param stage A etapa do evento.
+     * @return      Um List da classe Person
+     */
     public List<Person> getPersonList(int stage) {
 
         // Busca a lista de pessoas associadas a pessoa pelo stage:
