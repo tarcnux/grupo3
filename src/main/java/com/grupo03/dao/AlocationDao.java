@@ -46,8 +46,15 @@ public class AlocationDao {
         EventRoomDao er = new EventRoomDao();
 
 
-
-        public AlocationDao(List<Person> listPerson) {
+    /**
+     * Construtor do Objeto AlocationDao
+     * Inicializa uma lista de pessoas
+     * Inicializa lastCoffeeRoomId com o tamanho da lista CoffeeRoom
+     * Inicializa lastEventRoomId com o tamanho da lista EventRoom
+     * Incializa seat = 1, definindo o primeiro assento de cada sala
+     * @param listPerson
+     */
+    public AlocationDao(List<Person> listPerson) {
             this.listPerson = listPerson;
             lastCoffeeRoomId = cr.getAll().size();
             lastEventRoomId = er.getAll().size();
