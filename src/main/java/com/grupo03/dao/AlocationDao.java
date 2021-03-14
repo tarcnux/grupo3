@@ -64,7 +64,12 @@ public class AlocationDao {
             currentCoffeeRoomId = 1;
         }
 
-
+    /**
+     * Método que faz a alocação da lista de pessoas nas salas, através
+     * do relacionamento entre as entidades: Person, Coffeeroom e EventRoom
+     * CoffeeRoomPerson - join entre Person e CoffeeRoom
+     * EventRoomPerson - join entre Person e EventRoom
+     */
     public void alocar() {
 
             em.getTransaction().begin();
