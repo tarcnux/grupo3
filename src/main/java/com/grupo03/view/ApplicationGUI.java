@@ -266,16 +266,25 @@ public class ApplicationGUI {
 
     }
 
-    //metodo de alocar pessoas as salas
+    /**
+     * Método de alocação de pessoas nas salas e ambientes de café
+     */
     public static void setPersonRoom(){
+        /*
+            Para rodar este método uma segunda vez, é necessário limpar as tabelas
+            associativas antes.
+            delete from tbCoffeeRoomPerson where idCoffeeRoomPerson > 0;
+            SELECT * FROM prowayeventsmanager_db.tbCoffeeRoomPerson;
+
+            delete from tbEventRoomPerson where idEventRoomPerson > 0;
+            SELECT * FROM prowayeventsmanager_db.tbEventRoomPerson;
+         */
 
         PersonDao listPerson = new PersonDao();
         List<Person> people = listPerson.getAll();
+        AlocationDao alok = new AlocationDao(people);
 
-        AlocationDao ad = new AlocationDao(people);
-
-        ad.alocar();
-
+        alok.alocar();
 
         System.out.println("Usuários alocados com sucesso!!");
 
