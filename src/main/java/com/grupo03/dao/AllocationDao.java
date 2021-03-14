@@ -25,7 +25,7 @@ import java.util.Optional;
  * @author Guilherme Peyerl Florêncio (GuilhermePeyflo)
  * @author Tarcísio Nunes (tarcnux)
  */
-public class AlocationDao {
+public class AllocationDao {
         List<Person> listPerson;
 //        List<CoffeeRoom> listCoffeeRoom;
 //        List<EventRoom> listEventRoom;
@@ -55,7 +55,7 @@ public class AlocationDao {
      * Incializa seat = 1, definindo o primeiro assento de cada sala
      * @param listPerson
      */
-    public AlocationDao(List<Person> listPerson) {
+    public AllocationDao(List<Person> listPerson) {
             this.listPerson = listPerson;
             lastCoffeeRoomId = cr.getAll().size();
             lastEventRoomId = er.getAll().size();
