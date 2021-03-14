@@ -9,15 +9,20 @@ import com.grupo03.model.Person;
 import com.grupo03.dao.PersonDao;
 import com.grupo03.persistence.EntityManagerProvider;
 
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
+import java.util.*;
+
 
 
 public class ApplicationGUI {
 
-    //metodo de cadastro de Salas de evento
+    /**
+     *
+     */
     public static void createEventRooom(){
         Scanner teclado = new Scanner(System.in);
         EventRoomDao eventController = new EventRoomDao();
@@ -81,62 +86,72 @@ public class ApplicationGUI {
         int capAtual;
 
         List<EventRoom> rooms;
+        List<CoffeeRoom> coffes;
         List<Person> pessoas;
+
 
         var personController = new PersonDao();
         var roomController = new EventRoomDao();
+        var coffeeController = new CoffeeRoomDao();
 
         pessoas = personController.getAll();
         capAtual = pessoas.size();
 
         rooms = roomController.getAll();
+        coffes = coffeeController.getAll();
 //        capMax = rooms.get(0).getCapacity();1
 
-        // Busca a menor capacidade de sala:
-        Optional<Integer> capMax =
-                rooms.stream().map(EventRoom::getCapacity).min(Comparator.naturalOrder());
+        if(rooms.size() >= 2 && coffes.size() >= 2){
 
-        int capacidadeMaxima = capMax.get();
+            // Busca a menor capacidade de sala:
+            Optional<Integer> capMax =
+                    rooms.stream().map(EventRoom::getCapacity).min(Comparator.naturalOrder());
 
-        capacidadeMaxima = capacidadeMaxima * rooms.size();
+            int capacidadeMaxima = capMax.get();
 
-        do {
-            if(capAtual<capacidadeMaxima){
+            capacidadeMaxima = capacidadeMaxima * rooms.size();
 
-                System.out.println("Capacidade disponível: " + (capacidadeMaxima - capAtual));
-                System.out.println("Insira o nome:");
-                name = teclado.nextLine();
+            do {
+                if(capAtual<capacidadeMaxima){
 
-                System.out.println("Insira o sobrenome:");
-                lastName = teclado.nextLine();
+                    System.out.println("Capacidade disponível: " + (capacidadeMaxima - capAtual));
+                    System.out.println("Insira o nome:");
+                    name = teclado.nextLine();
 
-                System.out.println("Nome: " + name  + lastName);
-                person = new Person (name, lastName);
-                person.setName(name);
-                person.setLastname(lastName);
-                personController.save(person);
+                    System.out.println("Insira o sobrenome:");
+                    lastName = teclado.nextLine();
 
-                capAtual++;
-                System.out.println("Deseja inserir outra Pessoa?? S ou N");
-                opcao = teclado.next();
-                teclado.nextLine();
+                    System.out.println("Nome: " + name + " " + lastName);
+                    person = new Person (name, lastName);
+                    person.setName(name);
+                    person.setLastname(lastName);
+                    personController.save(person);
 
-                limpar();
-            }
+                    capAtual++;
+                    System.out.println("Deseja inserir outra Pessoa?? S ou N");
+                    opcao = teclado.next();
+                    teclado.nextLine();
 
-            else {
-                System.out.println("Capacidade Máxima atingida. Retornando ao menu inicial.");
-                opcao="N";
-            }
-        }while(opcao.equalsIgnoreCase("S"));
-    }
+                    limpar();
+                }
+
+                else {
+                    System.out.println("Capacidade Máxima atingida. Retornando ao menu inicial.");
+                    opcao="N";
+                }
+            }while(opcao.equalsIgnoreCase("S"));
+        }else{
+            System.out.println("Cadastre pelo menos 2 salas de Evento e 2 salas de Café antes de cadastrar pessoas");
+        }
+        }
+
 
     //metodo de consultar Pessoas
     public static void getPersonList(){
 
         Scanner teclado = new Scanner(System.in);
         var em = EntityManagerProvider.getEntityManager();
-        int opcao;
+        int opcao = 0;
 
         var pController = new PersonDao();
 
@@ -154,21 +169,32 @@ public class ApplicationGUI {
                 aux++;
             }
             System.out.println("Digite: ");
-            opcao = teclado.nextInt();
-            int id;
-            id = persons.get(opcao-1).getId();
-            person = em.find(Person.class,id);
-            System.out.println("Etapa 1"
-                    +"\nSala de Evento: "+ person.getEventRoomPersonList().get(0).getEventRoom().getName()
-                    +"\nSala de Café: "+ person.getCoffeeRoomPersonList().get(0).getCoffeeRoom().getName()
-                    +"\n\nEtapa 2"
-                    +"\nSala de Evento: "+ person.getEventRoomPersonList().get(1).getEventRoom().getName()
-                    +"\nSala de Café: "  + person.getCoffeeRoomPersonList().get(1).getCoffeeRoom().getName()
+            try {
+                opcao = teclado.nextInt();
+                int id;
+                id = persons.get(opcao-1).getId();
+                person = em.find(Person.class,id);
+                System.out.println("Etapa 1"
+                        +"\nSala de Evento: "+ person.getEventRoomPersonList().get(0).getEventRoom().getName()
+                        +"\nSala de Café: "+ person.getCoffeeRoomPersonList().get(0).getCoffeeRoom().getName()
+                        +"\n\nEtapa 2"
+                        +"\nSala de Evento: "+ person.getEventRoomPersonList().get(1).getEventRoom().getName()
+                        +"\nSala de Café: "  + person.getCoffeeRoomPersonList().get(1).getCoffeeRoom().getName()
                 );
 
-
-            System.out.println("\n\nDeseja consultar outra pessoa?\n1)Sim\n2)Não\nDigite:");
-            opcao=teclado.nextInt();
+                System.out.println("\n\n\nDeseja buscar outra Pessoa?\n1)Sim\n2)Não\nDigite:");
+                opcao = teclado.nextInt();
+            }catch (InputMismatchException inputError){
+                System.out.println("A opção selecionada não é válida! Retornando ao Menu Principal");
+                opcao = 2;
+            }catch (IndexOutOfBoundsException indexBound){
+                if (opcao > persons.size() || opcao < 1){
+                    System.out.println("O valor digitado não corresponde a uma pessoa da lista");
+                }else {
+                    System.out.println("A função de alocar pessoas nas salas não foi executada! Selecione a opção  no menu Principal");
+                    opcao = 2;
+                }
+            }
         }while(opcao!=2);
    }
 
@@ -176,7 +202,7 @@ public class ApplicationGUI {
     public static void getEventRoomList(){
         var em = EntityManagerProvider.getEntityManager();
         var teclado = new Scanner(System.in);
-        int opcao;
+        int opcao = 0;
 
         var ercontroller = new EventRoomDao();
 
@@ -198,22 +224,38 @@ public class ApplicationGUI {
 
         System.out.println("Digite: ");
 
-        opcao=teclado.nextInt();
+        try{
+            opcao=teclado.nextInt();
 
-        int id;
+            int id;
 
-        id = eventrooms.get(opcao-1).getId();
+            id = eventrooms.get(opcao-1).getId();
 
-        ev1 = em.find(EventRoom.class,id);
-        //imprime as pessoas na sala
-        System.out.println("Etapa 1");
-        ev1.getPersonList(1).forEach(e -> System.out.println(e.getName()+" " +e.getLastname()));
-        System.out.println("");
-        System.out.println("Etapa 2");
-        ev1.getPersonList(2).forEach(e -> System.out.println(e.getName()+" " +e.getLastname()));
+            ev1 = em.find(EventRoom.class,id);
+            //imprime as pessoas na sala
+            if(ev1.getPersonList(1).size() == 0 && ev1.getPersonList(2).size() == 0 ){
+                System.out.println("Selecione a opção 7 do menu Principal para executar a alocação de pessoas nas salas antes de fazer as consultas");
+            }else {
+                System.out.println("Etapa 1");
+                ev1.getPersonList(1).forEach(e -> System.out.println(e.getName() + " " + e.getLastname()));
+                System.out.println("");
+                System.out.println("Etapa 2");
+                ev1.getPersonList(2).forEach(e -> System.out.println(e.getName() + " " + e.getLastname()));
+            }
+            System.out.println("\n\n\nDeseja buscar outra sala?\n1)Sim\n2)Não\nDigite:");
+            opcao= teclado.nextInt();
+        }catch (InputMismatchException inputError){
+            System.out.println("A opção selecionada não é válida! Retornando ao Menu Principal");
+            opcao = 2;
+        }catch (IndexOutOfBoundsException indexBound){
+            if (opcao > eventrooms.size() || opcao < 1){
+                System.out.println("O valor digitado não corresponde a uma sala de eventos da lista");
+            }else {
+                System.out.println("A função de alocar pessoas nas salas não foi executada! Selecione a opção  no menu Principal");
+                opcao = 2;
+            }
+        }
 
-        System.out.println("\n\n\nDeseja buscar outra sala?\n1)Sim\n2)Não\nDigite:");
-        opcao= teclado.nextInt();
         }while(opcao!=2);
 }
 
@@ -224,7 +266,7 @@ public class ApplicationGUI {
 
         var em = EntityManagerProvider.getEntityManager();
         var teclado = new Scanner(System.in);
-        int opcao;
+        int opcao = 0;
 
         var cfcontroller = new CoffeeRoomDao();
 
@@ -234,7 +276,7 @@ public class ApplicationGUI {
         CoffeeRoom ev1;
         do{
 
-            System.out.println("Qual sala do café você deseja consultar?\nDigite:");
+            System.out.println("Qual sala do café você deseja consultar?");
 
             int aux=1;
             //imprime todas as salas na tela
@@ -244,22 +286,38 @@ public class ApplicationGUI {
                 aux++;
             }
             System.out.println("Digite: ");
-            opcao=teclado.nextInt();
+            try{
+                opcao=teclado.nextInt();
 
-            int id;
+                int id;
 
-            id = coffeerooms.get(opcao-1).getId();
+                id = coffeerooms.get(opcao-1).getId();
 
-            ev1 = em.find(CoffeeRoom.class,id);
-            //imprime as pessoas na sala
-            System.out.println("Etapa 1");
-            ev1.getPersonList(1).forEach(e -> System.out.println(e.getName()+" " +e.getLastname()));
-            System.out.println("");
-            System.out.println("Etapa 2");
-            ev1.getPersonList(2).forEach(e -> System.out.println(e.getName()+" " +e.getLastname()));
+                ev1 = em.find(CoffeeRoom.class,id);
+                //imprime as pessoas na sala
+                if(ev1.getPersonList(1).size() == 0 && ev1.getPersonList(2).size() == 0 ){
+                    System.out.println("Selecione a opção 7 do menu Principal para executar a alocação de pessoas nas salas antes de fazer as consultas");
+                }else {
+                    System.out.println("Etapa 1");
+                    ev1.getPersonList(1).forEach(e -> System.out.println(e.getName() + " " + e.getLastname()));
+                    System.out.println("");
+                    System.out.println("Etapa 2");
+                    ev1.getPersonList(2).forEach(e -> System.out.println(e.getName() + " " + e.getLastname()));
+                }
+                System.out.println("\n\n\nDeseja buscar outra sala de café?\n1)Sim\n2)Não\nDigite:");
+                opcao= teclado.nextInt();
+            }catch (InputMismatchException inputError){
+                System.out.println("A opção selecionada não é válida! Retornando ao Menu Principal");
+                opcao = 2;
+            }catch (IndexOutOfBoundsException indexBound){
+                if (opcao > coffeerooms.size() || opcao < 1){
+                    System.out.println("O valor digitado não corresponde a uma sala de eventos da lista");
+                }else {
+                    System.out.println("A função de alocar pessoas nas salas não foi executada! Selecione a opção  no menu Principal");
+                    opcao = 2;
+                }
+            }
 
-            System.out.println("\n\n\nDeseja buscar outra sala?\n1)Sim\n2)Não\nDigite:");
-            opcao= teclado.nextInt();
         }while(opcao!=2);
 
 
@@ -280,18 +338,25 @@ public class ApplicationGUI {
          */
 
         PersonDao listPerson = new PersonDao();
+        EventRoomDao eventDao = new EventRoomDao();
+        CoffeeRoomDao coffeeDao = new CoffeeRoomDao();
+        List<CoffeeRoom> coffeeRooms = coffeeDao.getAll();
+        List<EventRoom> rooms = eventDao.getAll();
         List<Person> people = listPerson.getAll();
         AllocationDao alok = new AllocationDao(people);
 
-        alok.alocar();
+        if (people.size() < 2 || rooms.size() < 2 || coffeeRooms.size() < 2){
+            System.out.println("Cadastre pelo menos, 2 pessoas, 2 salas de Evento e 2 salas de café");
+        }else{
+            alok.alocar();
 
-        System.out.println("Usuários alocados com sucesso!!");
-
+            System.out.println("Usuários alocados com sucesso!!");
+        }
     }
 
     //limpar tela
     public static void limpar(){
-        for(int i=0;i<70;i++) {System.out.println("");}
+        for(int i=0;i<20;i++) {System.out.println("");}
     }
 
     //metodo que inicia a aplicação, onde está localizado as opções do menu
