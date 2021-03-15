@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.grupo03.application"},{"l":"com.grupo03.dao"},{"l":"com.grupo03.model"},{"l":"com.grupo03.model.joins"},{"l":"com.grupo03.persistence"},{"l":"com.grupo03.view"}]

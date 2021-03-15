@@ -6,53 +6,106 @@ import com.grupo03.model.joins.EventRoomPerson;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+/**
+ * Representa a entidade Pessoa (tbPerson no banco de dados) que deve
+ * ser cadastradas/alocadas nas salas e espaços de café do do evento
+ * através das classes EventRoomPerson e CoffeeRoomPerson.
+ * @see com.grupo03.model.joins.CoffeeRoomPerson
+ * @see com.grupo03.model.joins.EventRoomPerson
+ *
+ * {@link #getCoffeeRoomPersonList()}   Retorna a listas de cadastro das
+ * pessoas nas salas.
+ * {@link #getCoffeeRoomPersonList()}   Retorna a listas de cadastro das
+ * pessoas nos espaços de café.
+ *
+ * @author  Carlos Eduardo Ribeiro
+ * @author  Guilherme Peyerl Florêncio
+ * @version 1.0
+ */
 @Entity
 @Table(name = "tbPerson")
 public class Person {
 
-    // Gera o id de person automaticamente
+    /**
+     * Identificador da pessoa no banco de dados.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idPerson")
     private int id;
 
+    /**
+     * Nome da pessoa.
+     */
     @Column(nullable = false)
     private String name;
 
+    /**
+     * Sobrenome da pessoa.
+     */
     @Column(nullable = false)
     private String lastname;
 
+    /**
+     * Posição que a pessoa será alocada nas salas. Serve como
+     * base para fazer a alocação das pessoas cadastradas nas salas.
+     */
     @Column
     private int seat;
 
-    // Variável de referência para a tabela EventRoomPerson
-    @Transient
+    /**
+     * Define a associação com a classe EventRoomPeson que representa o
+     * relacionamento muitos-para-muitos entre as classes EventRoom e Person.
+     */
     @OneToMany(mappedBy = "person")
-    private List<EventRoomPerson> eventHasPerson = new ArrayList<>();
+    private List<EventRoomPerson> eventRoomPersonList = new ArrayList<>();
 
-    @Transient
+    /**
+     * Define a associação com a classe CoffeeRoomPeson que representa o
+     * relacionamento muitos-para-muitos entre as classes CoffeeRoom e
+     * Person.
+     */
     @OneToMany(mappedBy = "person")
-    private List<CoffeeRoomPerson> coffeeRoomPerson = new ArrayList<>();
+    private List<CoffeeRoomPerson> coffeeRoomPersonList = new ArrayList<>();
 
-    @Transient
-    private List<EventRoom> eventRoomList;
+    /**
+     * Construtor sem argumento.
+     */
+    public Person() {
+    }
 
-    @Transient
-    private List<CoffeeRoom> coffeeRoomList;
+    /**
+     * Construtor da classe especificando o id.
+     * @param id    o identificador da pessoa no bannco de dados (chave primária)
+     */
+    public Person(int id) {
+        this.id = id;
+    }
 
-    // Construtor da classe Person
+    /**
+     *  Construtor da classe especificando o nome e sobrenome.
+     * @param name      o nome da pessoa
+     * @param lastname  o sobrenome da pessoa
+     */
+    public Person(String name, String lastname) {
+        this.name = name;
+        this.lastname = lastname;
+    }
+
+    /**
+     * Construtor da classe especificando nome, sobrenome e a posição.
+     * @param name      o nome da pessoa
+     * @param lastname  o sobrenome da pessoa
+     * @param seat      o posição que a pessoa será alocada nas salas (cadeira/ascento)
+     */
     public Person(String name, String lastname, int seat) {
         this.name = name;
         this.lastname = lastname;
         this.seat = seat;
     }
 
-    // Construtor da classe Person sem seat
-    public Person(String name, String lastname) {
-        this.name = name;
-        this.lastname = lastname;
-    }
 
     // Getters | Setters:
 
@@ -88,36 +141,53 @@ public class Person {
         this.seat = seat;
     }
 
-    public List<EventRoomPerson> getEventHasPerson() {
-        return eventHasPerson;
+    /**
+     * Busca e retorna a lista com os cadastros que a pessoa
+     * possui nas salas.
+     * @return  um List da classe EventRoomPerson
+     */
+    public List<EventRoomPerson> getEventRoomPersonList() {
+        return eventRoomPersonList;
     }
 
-    public void setEventHasPerson(List<EventRoomPerson> eventHasPerson) {
-        this.eventHasPerson = eventHasPerson;
+    public void setEventRoomPersonList(List<EventRoomPerson> eventRoomPersonList) {
+        this.eventRoomPersonList = eventRoomPersonList;
     }
 
-    public List<CoffeeRoomPerson> getCoffeeRoomPerson() {
-        return coffeeRoomPerson;
+    /**
+     * Busca e retorna a lista dos cadastros que a pessoa possui
+     * nos espaços de café.
+     * @return  um List da classe CoffeeRoomPerson
+     */
+    public List<CoffeeRoomPerson> getCoffeeRoomPersonList() {
+        return coffeeRoomPersonList;
     }
 
-    public void setCoffeeRoomPerson(List<CoffeeRoomPerson> coffeeRoomPerson) {
-        this.coffeeRoomPerson = coffeeRoomPerson;
+    public void setCoffeeRoomPersonList(List<CoffeeRoomPerson> coffeeRoomPersonList) {
+        this.coffeeRoomPersonList = coffeeRoomPersonList;
     }
 
-    public List<EventRoom> getEventRoomList() {
-        return eventRoomList;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return id == person.id;
     }
 
-    public void setEventRoomList(List<EventRoom> eventRoomList) {
-        this.eventRoomList = eventRoomList;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
-    public List<CoffeeRoom> getCoffeeRoomList() {
-        return coffeeRoomList;
-    }
-
-    public void setCoffeeRoomList(List<CoffeeRoom> coffeeRoomList) {
-        this.coffeeRoomList = coffeeRoomList;
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", seat=" + seat +
+                '}';
     }
 
 }
