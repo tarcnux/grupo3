@@ -1,5 +1,5 @@
 /**
- * Contén as classes referente a conexão com o banco de dados.
+ * Contém as classes referente a conexão com o banco de dados.
  *
  * @author Carlos Eduardo Ribeiro (carloseduribeiro)
  * @author Giulia Marcela Mendes de Arruda (giuliaMarcela)
