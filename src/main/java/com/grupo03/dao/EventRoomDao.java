@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * É a classe responsável por conectar a model EventRoom com o banco de dados,
+ * Classe responsável por conectar a model EventRoom com o banco de dados,
  * para realizar consultas e inserções no banco(tbcoffeeroom).
  * @see com.grupo03.model.EventRoom
  * @see com.grupo03.persistence.EntityManagerProvider

@@ -19,6 +19,7 @@ import java.util.*;
 
 /**
  * Classe que contém os métodos que são chamados para executar cada funcionalidade do sistema.
+ * Interface com o usuário.
  * @see com.grupo03.dao.AllocationDao
  * @see com.grupo03.dao.CoffeeRoomDao
  * @see com.grupo03.dao.EventRoomDao
