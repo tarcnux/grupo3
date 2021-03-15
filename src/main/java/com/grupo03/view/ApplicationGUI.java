@@ -300,11 +300,13 @@ public class ApplicationGUI {
                 if(ev1.getPersonList(1).size() == 0 && ev1.getPersonList(2).size() == 0 ){
                     System.out.println("Selecione a opção 7 do menu Principal para executar a alocação de pessoas nas salas antes de fazer as consultas");
                 }else {
-                    System.out.println("Etapa 1");
-                    ev1.getPersonList(1).forEach(e -> System.out.println(e.getName() + " " + e.getLastname()));
+                    System.out.println("Etapa 1 - | Nome \t| Assento |");
+                    ev1.getPersonList(1).forEach(e ->
+                            System.out.println("| " + e.getName() + " " + e.getLastname() + " \t|" + e.getSeat() + " |"));
                     System.out.println("");
-                    System.out.println("Etapa 2");
-                    ev1.getPersonList(2).forEach(e -> System.out.println(e.getName() + " " + e.getLastname()));
+                    System.out.println("Etapa 2 - | Nome \t| Assento |");
+                    ev1.getPersonList(2).forEach(e ->
+                            System.out.println("| " + e.getName() + " " + e.getLastname() + " \t| " + e.getSeat() + " |"));
                 }
                 System.out.println("\n\n\nDeseja buscar outra sala de café?\n1)Sim\n2)Não\nDigite:");
                 opcao= teclado.nextInt();
