@@ -9,6 +9,13 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+/**
+ * Esta classe possui os métodos necessários para a criação do objeto Pessoa.
+ * Assim como a relação com o banco de dados para a consulta de Pessoa por Id e
+ * consulta de todas as pessoas cadastradas em banco.
+ * @author Natan Luis Moreira (LuisNataan);
+ * @author Guilherme Peyerl Florêncio (GuilhermePeyflo)
+ */
 public class PersonDao implements DaoPattern<Person> {
 
     private static EntityManager em;
