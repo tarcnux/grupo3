@@ -6,7 +6,7 @@ import java.util.Optional;
 /**
  * Define uma API simples e abstrata para estabelecer um padrão
  * concreto da implementação dos métodos CRUD que manipulam
- * objetos do do tipo T.
+ * objetos do tipo T.
  * @param <T>   Tipo de objeto a ser manipulado.
  *
  * @author Carlos Eduardo Ribeiro

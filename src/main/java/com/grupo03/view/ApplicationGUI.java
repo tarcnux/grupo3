@@ -17,11 +17,39 @@ import java.util.Scanner;
 import java.util.*;
 
 
-
+/**
+ * Classe que contém os métodos que são chamados para executar cada funcionalidade do sistema.
+ * @see com.grupo03.dao.AllocationDao
+ * @see com.grupo03.dao.CoffeeRoomDao
+ * @see com.grupo03.dao.EventRoomDao
+ * @see com.grupo03.model.CoffeeRoom
+ * @see com.grupo03.model.EventRoom
+ * @see com.grupo03.model.Person
+ * @see com.grupo03.dao.PersonDao
+ * @see com.grupo03.persistence.EntityManagerProvider
+ *
+ * {@link #start()} Método que exibe o menu de funcionalidades do sistema.
+ * {@link #createPerson()} Cria uma nova pessoa e a cadastra no banco de dados.
+ * {@link #createEventRooom()} Cria uma nova sala de evento e salva no banco de dados.
+ * {@link #createCoffeeRoom()} Cria uma nova sala de café e salva no banco de dados.
+ * {@link #getPersonList()} Exibe as salas de evento e café em que a pessoa selecionada foi cadastrada.
+ * {@link #getEventRoomList()} Exibe todas as pessoas que estão cadastradas na sala de evento selecionada,
+ * durante as etapas 1 e 2.
+ * {@link #getCoffeeRoomList()} Exibe todas as pessoas que estão cadastradas na sala de café selecionada,
+ * durante as etapas 1 e 2.
+ * {@link #setPersonRoom()} Distribui as pessoas cadastradas no sistema nas salas de evento e ambientes de café.
+ * {@link #limpar()} Mantém a exibição dos menus mais organizada,
+ * para facilitar a compreensão do que está sendo exibido.
+ *
+ * @author Jorge Davi Navarro
+ * @author Tarcísio Nunes
+ * @author Carlos Eduardo Ribeiro
+ * @author Guilherme Peyerl Florêncio
+ */
 public class ApplicationGUI {
 
     /**
-     *
+     * Método que cria as salas de eventos e cadastra no banco
      */
     public static void createEventRooom(){
         Scanner teclado = new Scanner(System.in);
@@ -51,7 +79,9 @@ public class ApplicationGUI {
 
     }
 
-    //metodo de cadastro de sala de café
+    /**
+     * Método que cria as salas de café e salva no banco
+     */
     public static void createCoffeeRoom(){
         Scanner teclado = new Scanner(System.in);
         CoffeeRoomDao coffeeController = new CoffeeRoomDao();
@@ -76,7 +106,9 @@ public class ApplicationGUI {
 
     }
 
-    //metodo de cadastro de Pessoas
+    /**
+     * Método que cria as pessoas e salva no banco
+     */
     public static void createPerson(){
         Person person;
         Scanner teclado = new Scanner(System.in);
@@ -99,7 +131,6 @@ public class ApplicationGUI {
 
         rooms = roomController.getAll();
         coffes = coffeeController.getAll();
-//        capMax = rooms.get(0).getCapacity();1
 
         if(rooms.size() >= 2 && coffes.size() >= 2){
 
@@ -146,7 +177,11 @@ public class ApplicationGUI {
         }
 
 
-    //metodo de consultar Pessoas
+    /**
+     * Método que retorna as salas de evento e café em que uma pessoa esta alocada
+     * @throws InputMismatchException
+     * @throws IndexOutOfBoundsException
+     */
     public static void getPersonList(){
 
         Scanner teclado = new Scanner(System.in);
@@ -193,14 +228,18 @@ public class ApplicationGUI {
                 if (opcao > persons.size() || opcao < 1){
                     System.out.println("O valor digitado não corresponde a uma pessoa da lista");
                 }else {
-                    System.out.println("A função de alocar pessoas nas salas não foi executada! Selecione a opção  no menu Principal");
+                    System.out.println("A função de alocar pessoas nas salas não foi executada! Selecione a opção 7 no menu Principal");
                     opcao = 2;
                 }
             }
         }while(opcao!=2);
    }
 
-    //metodo de consultar sala de eventos
+    /**
+     * Método que retorna uma lista de pessoas em uma sala de evento durante cada etapa
+     * @throws InputMismatchException
+     * @throws IndexOutOfBoundsException
+     */
     public static void getEventRoomList(){
         var em = EntityManagerProvider.getEntityManager();
         var teclado = new Scanner(System.in);
@@ -248,14 +287,17 @@ public class ApplicationGUI {
             }
             System.out.println("\n\n\nDeseja buscar outra sala?\n1)Sim\n2)Não\nDigite:");
             opcao= teclado.nextInt();
+        // Dispara a exceção caso o valor digitado pelo usuário não seja uma das opções exibidas
         }catch (InputMismatchException inputError){
             System.out.println("A opção selecionada não é válida! Retornando ao Menu Principal");
             opcao = 2;
+        // Dispara a exceção caso a opção digitada não esteja na lista de opções ou caso a lista de pessoas
+        // esteja vazia por não ter sido executado o método de alocação
         }catch (IndexOutOfBoundsException indexBound){
             if (opcao > eventrooms.size() || opcao < 1){
                 System.out.println("O valor digitado não corresponde a uma sala de eventos da lista");
             }else {
-                System.out.println("A função de alocar pessoas nas salas não foi executada! Selecione a opção  no menu Principal");
+                System.out.println("A função de alocar pessoas nas salas não foi executada! Selecione a opção 7 no menu Principal");
                 opcao = 2;
             }
         }
@@ -264,8 +306,11 @@ public class ApplicationGUI {
 }
 
 
-
-    //metodo de consultar sala de café
+    /**
+     * Método que retorna uma lista de pessoas em uma sala de café durante cada etapa
+     * @throws InputMismatchException
+     * @throws IndexOutOfBoundsException
+     */
     public static void getCoffeeRoomList(){
 
         var em = EntityManagerProvider.getEntityManager();
@@ -294,10 +339,9 @@ public class ApplicationGUI {
                 opcao=teclado.nextInt();
 
                 int id;
-
                 id = coffeerooms.get(opcao-1).getId();
-
                 ev1 = em.find(CoffeeRoom.class,id);
+
                 //imprime as pessoas na sala
                 if(ev1.getPersonList(1).size() == 0 && ev1.getPersonList(2).size() == 0 ){
                     System.out.println("Selecione a opção 7 do menu Principal para executar a alocação de pessoas nas salas antes de fazer as consultas");
@@ -312,14 +356,17 @@ public class ApplicationGUI {
                 }
                 System.out.println("\n\n\nDeseja buscar outra sala de café?\n1)Sim\n2)Não\nDigite:");
                 opcao= teclado.nextInt();
+            // Dispara a exceção caso o valor digitado pelo usuário não seja uma das opções exibidas
             }catch (InputMismatchException inputError){
                 System.out.println("A opção selecionada não é válida! Retornando ao Menu Principal");
                 opcao = 2;
+            // Dispara a exceção caso a opção digitada não esteja na lista de opções ou caso a lista de pessoas
+            // esteja vazia por não ter sido executado o método de alocação
             }catch (IndexOutOfBoundsException indexBound){
                 if (opcao > coffeerooms.size() || opcao < 1){
                     System.out.println("O valor digitado não corresponde a uma sala de eventos da lista");
                 }else {
-                    System.out.println("A função de alocar pessoas nas salas não foi executada! Selecione a opção  no menu Principal");
+                    System.out.println("A função de alocar pessoas nas salas não foi executada! Selecione a opção 7 no menu Principal");
                     opcao = 2;
                 }
             }
@@ -360,12 +407,16 @@ public class ApplicationGUI {
         }
     }
 
-    //limpar tela
+    /**
+     * Método que "limpa" a tela para deixar os dados em exibição mais organizados
+     */
     public static void limpar(){
         for(int i=0;i<20;i++) {System.out.println("");}
     }
 
-    //metodo que inicia a aplicação, onde está localizado as opções do menu
+    /**
+     * Método que inicia a aplicação exibindo o menu de funcinalidades
+     */
     public static void start() {
         String op;
         Scanner teclado = new Scanner(System.in);

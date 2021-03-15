@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * @see com.grupo03.model.Person
  * @see com.grupo03.model.joins.CoffeeRoomPerson
  *
- * {@link #getPersonList(int)} Retorna a lisata de pessoas cadastradas
+ * {@link #getPersonList(int)} Retorna a lista de pessoas cadastradas
  * na sala pela etapa do evento
  * {@link #getCoffeeRoomPersonList()}   Retorna a listas de cadastro das
  * pessoas nos espaços de café
