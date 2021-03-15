@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Represeanta a entidade Espaço de Café (tbCoffeeRoom no banco de
+ * Representa a entidade Espaço de Café (tbCoffeeRoom no banco de
  * dados). Ela erda da classe Room que contém os atributos essenciais
  * para um espaço de café ou sala no evento.</br>
  * Essa classe faz associação muitos-para-muitos com a entidade pessoa

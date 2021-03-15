@@ -13,11 +13,18 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- *  Esta classe é responsável por fazer a alocação de uma lista de pessoas
+ *  Classe responsável por fazer a alocação de uma lista de pessoas
  *  em salas de eventos e em ambientes de café seguindo a Regra de Negócio
  *  "A diferença de pessoas em cada sala deverá ser de no máximo 1 pessoa.
  *  Para estimular a troca de conhecimentos, metade das pessoas precisam trocar
  *  de sala entre as duas etapas do treinamento."
+ *  @see com.grupo03.model.CoffeeRoom
+ *  @see com.grupo03.model.EventRoom;
+ *  @see com.grupo03.model.Person;
+ *  @see com.grupo03.model.joins.CoffeeRoomPerson;
+ *  @see com.grupo03.model.joins.EventRoomPerson;
+ *  @see com.grupo03.persistence.EntityManagerProvider;
+ *  @see javax.persistence.EntityManager;
  *
  * {@link #alocar()} Percorre uma lista de pessoas e aloca nas salas por etapas
  *
