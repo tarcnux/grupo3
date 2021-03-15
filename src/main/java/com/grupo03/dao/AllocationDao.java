@@ -59,8 +59,8 @@ public class AllocationDao {
         List<CoffeeRoom> coffeeRoomList = coffeeRoomDao.getAll();
 
         // Armazena o índice da última sala/espaço de café cadastrada:
-        int lastEventRoomIndex = eventRoomList.size() -1;
-        int coffeeEventRoomIndex = coffeeRoomList.size() -1;
+        int lastEventRoomIndex = eventRoomList.size() - 1;
+        int coffeeEventRoomIndex = coffeeRoomList.size() - 1;
 
         // Armazena o índice das salas/espaçoa de café:
         int eventRoomIndex = 0;
@@ -94,26 +94,21 @@ public class AllocationDao {
                 // Faz a associação do espaço de fafé:
                 CoffeeRoomPerson coffeeRoomPerson;
                 coffeeRoomPerson = new CoffeeRoomPerson(person, coffeeRoom, 1);
-                em.merge(eventRoomPerson);
+                em.merge(coffeeRoomPerson);
                 coffeeRoomPerson = new CoffeeRoomPerson(person, coffeeRoom, 2);
                 em.merge(coffeeRoomPerson);
 
                 /*
-                    Verifica se alcançou o índice máximo da lista de salas.
+                    Verifica se alcançou o índice máximo da lista de espaço de café ou salas.
                     Se alcançar o índice é resetado e o assento incrementado.
                  */
-                if (eventRoomIndex < lastEventRoomIndex) {
-                    eventRoomIndex += 1;
-                } else {
-                    eventRoomIndex = 0;
-                    seat++;
-                }
+                eventRoomIndex = eventRoomIndex < lastEventRoomIndex ? ++eventRoomIndex : 0;
+                coffeeRoomIndex = coffeeRoomIndex < coffeeEventRoomIndex ? ++coffeeRoomIndex : 0;
 
             } else {    // Pessoas no assento par troca de sala na segunda etapa:
 
                 // Armazena uma insância das classes para fazer a associação:
                 EventRoomPerson eventRoomPerson;
-                CoffeeRoomPerson coffeeRoomPerson;
 
                 // Instancia a sala atual na lista pelo índice para fazer a associação:
                 var eventRoom = eventRoomList.get(eventRoomIndex);
@@ -121,13 +116,6 @@ public class AllocationDao {
                 // Aloca a pessoa na sala na primeira etapa:
                 eventRoomPerson = new EventRoomPerson(person, eventRoom, 1);
                 em.merge(eventRoomPerson);
-
-                // Instancia a sala atual na lista pelo índice para fazer a associação:
-                var coffeeRoom = coffeeRoomList.get(coffeeRoomIndex);
-
-                // Aloca a pessoa no espaço de café na primeira etapa:
-                coffeeRoomPerson = new CoffeeRoomPerson(person, coffeeRoom, 1);
-                em.merge(coffeeRoomPerson);
 
                 EventRoom nextEventRoom;
                 // Verifica se está na ultima sala da lista:
@@ -148,6 +136,16 @@ public class AllocationDao {
                     em.merge(eventRoomPerson);
 
                 }
+
+                // Armazena uma insância das classes para fazer a associação:
+                CoffeeRoomPerson coffeeRoomPerson;
+
+                // Instancia a sala atual na lista pelo índice para fazer a associação:
+                var coffeeRoom = coffeeRoomList.get(coffeeRoomIndex);
+
+                // Aloca a pessoa no espaço de café na primeira etapa:
+                coffeeRoomPerson = new CoffeeRoomPerson(person, coffeeRoom, 1);
+                em.merge(coffeeRoomPerson);
 
                 CoffeeRoom nextCoffeeRoom;
                 // Verifica se está na ultima sala da lista:
@@ -174,7 +172,7 @@ public class AllocationDao {
                     Se alcançar o índice é resetado e o assento incrementado.
                  */
                 eventRoomIndex = eventRoomIndex < lastEventRoomIndex ? ++eventRoomIndex : 0;
-                coffeeRoomIndex = coffeeRoomIndex < lastEventRoomIndex ? ++coffeeRoomIndex : 0;
+                coffeeRoomIndex = coffeeRoomIndex < coffeeEventRoomIndex ? ++coffeeRoomIndex : 0;
                 seat = eventRoomIndex < lastEventRoomIndex ? seat : ++seat;
 
             }
