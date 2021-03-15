@@ -3,13 +3,27 @@ package com.grupo03.model;
 import javax.persistence.*;
 import java.util.Objects;
 
+/**
+ * Modelo base para as classes que representam um espaço no
+ * evento, seja ele uma sala de aula ou um espaço de café.
+ *
+ * @author  Carlos Eduardo Ribeiro
+ * @author  Guilherme Peyerl Florêncio
+ * @version 1.0
+ */
 @MappedSuperclass
 public abstract class Room {
 
+    /**
+     * Identificador do espaço no banco de dados (chave primária).
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int id;
 
+    /**
+     * Nome do espaço no evento.
+     */
     @Column(nullable = false)
     protected String name;
 

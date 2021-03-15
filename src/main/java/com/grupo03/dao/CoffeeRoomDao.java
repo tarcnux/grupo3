@@ -8,10 +8,30 @@ import javax.persistence.Query;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * É a classe responsável por conectar a model CoffeeRoom com o banco de dados,
+ * para realizar consultas e inserções no banco(tbcoffeeroom).
+ *@see com.grupo03.model.CoffeeRoom
+ *@see com.grupo03.persistence.EntityManagerProvider
+ *@see javax.persistence.EntityManager
+ *@see javax.persistence.Query
+ *
+ * {@link #getById(int)} Retorna a sala de café que possui o id passado como parâmetro
+ * {@link #getAll()} Retorna uma lista de todas as salas de café cadastradas no banco de dados
+ * {@link #save(CoffeeRoom)} Cadastra um nova sala de café no banco de dados
+ *
+ * @author Guilherme Peyerl Florêncio
+ * @author Carlos Eduardo Ribeiro
+ */
 public class CoffeeRoomDao implements DaoPattern<CoffeeRoom> {
 
     private static EntityManager em;
 
+    /**
+     * O método retorna uma sala de café de acordo com o id passado.
+     * @param id    o identificador da sala de café no banco de dados (chave primária)
+     * @return
+     */
     @Override
     public Optional<CoffeeRoom> getById(int id) {
 
@@ -27,6 +47,10 @@ public class CoffeeRoomDao implements DaoPattern<CoffeeRoom> {
         return Optional.ofNullable(coffeeRoom);
     }
 
+    /**
+     * Este método retorna todas as salas cadastradas no banco.
+     * @return
+     */
     @Override
     public List<CoffeeRoom> getAll() {
 
@@ -35,7 +59,7 @@ public class CoffeeRoomDao implements DaoPattern<CoffeeRoom> {
         em = EntityManagerProvider.getEntityManager();
 
         // Consulta e armazena a lista de salas de café cadastradas:
-        Query consulta = em.createNativeQuery("SELECT * FROM tbEventRoom",CoffeeRoom.class);
+        Query consulta = em.createNativeQuery("SELECT * FROM tbCoffeeRoom",CoffeeRoom.class);
         coffeeRoomList = consulta.getResultList();
 
         em.close();
@@ -43,18 +67,26 @@ public class CoffeeRoomDao implements DaoPattern<CoffeeRoom> {
         return coffeeRoomList;
     }
 
-    //Cadastra uma nova sala de café no banco de dados
+    /**
+     * Este método salva o objeto coffeeRoom passado como parâmetro
+     * na tabela tbcoffeeroom do banco de dados
+     * @param coffeeRoom Objeto coffeeRoom com os atributos necessários para salvar no banco
+     * @return
+     */
     @Override
-    public void save(CoffeeRoom coffeeRoom) {
+    public CoffeeRoom save(CoffeeRoom coffeeRoom) {
 
+        CoffeeRoom result;
         em = EntityManagerProvider.getEntityManager();
 
         // Salva uma nova sala de café no banco de dados:
         em.getTransaction().begin();
-        em.persist(coffeeRoom);
+        result = em.merge(coffeeRoom);
         em.getTransaction().commit();
 
         em.close();
+
+        return result;
     }
 
 }

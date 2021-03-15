@@ -4,35 +4,37 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+/**
+ * Fornece objetos da classe EntityManager para gerenciar as
+ * as Entidade no banco de dados.
+ * @see javax.persistence.EntityManager
+ * @see javax.persistence.EntityManagerFactory
+ * @see javax.persistence.Persistence;
+ *
+ * {@link #getEntityManager()} Retorna um objeto do tipo entity manager.
+ *
+ * @author Carlos Eduardo Ribeiro
+ * @version 1.0
+ */
 public class EntityManagerProvider {
 
-    // Nome da Persistence Unit:
+    /**
+     * Nome da unidade de persistência do JPA.
+     */
     private static final String PU_NAME = "ProwayEM-PU";
 
-    /*
-     * * EntityManagerFactory deve ser estático:
-     *
-     * Na especificação diz que ele é multi-thread Custo 'muito alto' para você
-     * instanciá-lo o tempo todo
+    /**
+     * Instancia de objeto da classe EntityManagerFactory reponsável por fabrica
+     * objetos da classe EntityManager.
      */
+    private static final EntityManagerFactory entityManagerFactory =
+            Persistence.createEntityManagerFactory(PU_NAME);
 
-    // Instancia a factory para poder criar o EntityManager da UP:
-    private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(PU_NAME);
-
-    /*
-     * * EntityManager:
-     *
-     * Mapeia e gerencia um conjunto de classes a um banco de dados; Este conjunto
-     * de classes é chamado de PERSISTENCE UNIT.
-     *
-     * * EntityManager não é thread safe:
-     *
-     * A especificação diz que ele não deve ser reutilizado; O ideal é, abrir um
-     * quando o request chegar e depois finalizar; Se deixá-lo aberto, os recursos
-     * com o banco de dados podem se esgotar.
+    /**
+     * Cria e retorna um objeto da classe EntityManager para gerenciar
+     * as entidades do banco de dados.
+     * @return  um objeto da classe EntityManager.
      */
-
-    // Retorna o EntityManager da PU:
     public static EntityManager getEntityManager() {
         return entityManagerFactory.createEntityManager();
     }

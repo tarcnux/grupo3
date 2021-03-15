@@ -6,39 +6,70 @@ import com.grupo03.model.Person;
 import javax.persistence.*;
 import java.util.Objects;
 
+/**
+ * Representa a tabela join (tbEventRoomPerson no banco de dados)
+ * que faz a associação muitos-para-muitos entre as tabelas
+ * tbEventRoom e tbPerson representadas pelas classes EventRoom e
+ * Person respectivamente.
+ * @see com.grupo03.model.Person
+ * @see com.grupo03.model.EventRoom
+ *
+ * @author  Carlos Eduardo Ribeiro
+ * @author  Guilherme Peyerl Florêncio
+ * @version 1.0
+ */
 @Entity
 @Table(name = "tbEventRoomPerson")
 public class EventRoomPerson {
 
-    // identificador da relação entre a tabela Person e EventRoom
+    /**
+     * Identificador da associação no banco de dados (chave primária).
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idEventRoomPerson")
     private int id;
 
-    // Faz a associação com a entidade tbPerson:
+    /**
+     * Define a associação com classe Person.
+     */
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idPerson")
     private Person person;
 
-    // Faz a associação com a entidade tbEventRoom:
+    /**
+     * Define a associação com a classe EventRoom.
+     */
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idEventRoom")
     private EventRoom eventRoom;
 
+    /**
+     * Define a qual etapa a associação pertence.
+     */
     @Column(nullable = false)
     private int stage;
 
-
-    // Construtores:
-
+    /**
+     * Construtor sem argumento.
+     */
     public EventRoomPerson() {
     }
 
+    /**
+     * Constutor da classe especificando o id.
+     * @param id    O identificador da associação no bannco de dados (chave primária)
+     */
     public EventRoomPerson(int id) {
         this.id = id;
     }
 
+    /**
+     * Construtor da classe espesificando a pessoa, sala e etapa.
+     * @param person    A pessoa que será cadastrada na sala
+     * @param eventRoom A sala em que a pessoa será cadastrada
+     * @param stage     A etapa que a associação pertence
+     */
     public EventRoomPerson(Person person, EventRoom eventRoom, int stage) {
         this.person = person;
         this.eventRoom = eventRoom;
