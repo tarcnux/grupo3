@@ -20,7 +20,6 @@ import java.util.*;
 /**
  * Classe que contém os métodos que são chamados para executar cada funcionalidade do sistema.
  * Interface com o usuário.
- * @see com.grupo03.dao.AllocationDao
  * @see com.grupo03.dao.CoffeeRoomDao
  * @see com.grupo03.dao.EventRoomDao
  * @see com.grupo03.model.CoffeeRoom
@@ -397,12 +396,11 @@ public class ApplicationGUI {
         List<CoffeeRoom> coffeeRooms = coffeeDao.getAll();
         List<EventRoom> rooms = eventDao.getAll();
         List<Person> people = listPerson.getAll();
-        AllocationDao alok = new AllocationDao(people);
 
         if (people.size() < 2 || rooms.size() < 2 || coffeeRooms.size() < 2){
             System.out.println("Cadastre pelo menos, 2 pessoas, 2 salas de Evento e 2 salas de café");
         }else{
-            alok.alocar();
+            AllocationDao.allocate();
 
             System.out.println("Usuários alocados com sucesso!!");
         }
