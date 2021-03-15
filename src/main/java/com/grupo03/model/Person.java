@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Essa classe representa a entidade Pessoa (tbPerson no banco de dados)
- * que deve ser cadastradas/alocadas nas salas e espaços de café do
- * do evento através das classes EventRoomPerson e CoffeeRoomPerson.
+ * Representa a entidade Pessoa (tbPerson no banco de dados) que deve
+ * ser cadastradas/alocadas nas salas e espaços de café do do evento
+ * através das classes EventRoomPerson e CoffeeRoomPerson.
  * @see com.grupo03.model.joins.CoffeeRoomPerson
  * @see com.grupo03.model.joins.EventRoomPerson
  *

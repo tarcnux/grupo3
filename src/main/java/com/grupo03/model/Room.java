@@ -4,9 +4,8 @@ import javax.persistence.*;
 import java.util.Objects;
 
 /**
- * Essa classe é a base para as classes que representam um
- * espaço no evento, seja ele uma sala de aula ou um espaço
- * de café.
+ * Modelo base para as classes que representam um espaço no
+ * evento, seja ele uma sala de aula ou um espaço de café.
  *
  * @author  Carlos Eduardo Ribeiro
  * @author  Guilherme Peyerl Florêncio

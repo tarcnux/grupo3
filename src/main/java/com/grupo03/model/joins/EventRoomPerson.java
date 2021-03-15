@@ -7,8 +7,8 @@ import javax.persistence.*;
 import java.util.Objects;
 
 /**
- * Essa classe representa a tabela join (tbEventRoomPerson no banco de
- * dados) que faz a associação muitos-para-muitos entre as tabelas
+ * Representa a tabela join (tbEventRoomPerson no banco de dados)
+ * que faz a associação muitos-para-muitos entre as tabelas
  * tbEventRoom e tbPerson representadas pelas classes EventRoom e
  * Person respectivamente.
  * @see com.grupo03.model.Person

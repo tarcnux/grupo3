@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Essa classe represeanta a entidade Espaço de Café (tbCoffeeRoom
- * no banco de dados). Ela erda da classe Room que contém os atributos
- * essenciais para um espaço de café ou sala no evento.</br>
+ * Represeanta a entidade Espaço de Café (tbCoffeeRoom no banco de
+ * dados). Ela erda da classe Room que contém os atributos essenciais
+ * para um espaço de café ou sala no evento.</br>
  * Essa classe faz associação muitos-para-muitos com a entidade pessoa
  * (tbPerson no banco de dados), essa associação é definida pela classe
  * CoffeeRoomPerson que representa uma tabela join (tbCoffeeRoomPerson
@@ -65,7 +65,7 @@ public class CoffeeRoom extends Room {
     }
 
     /**
-     * Este método retorna uma lista dos relacionamentos que o espaço de
+     * Retorna uma lista dos relacionamentos que o espaço de
      * café possui com a entidade pessoa.
      * @return  Um List da classe CoffeeRoomPerson
      */
@@ -78,7 +78,7 @@ public class CoffeeRoom extends Room {
     }
 
     /**
-     * Este método retorna uma lista de pessoas cadastradas no espaço
+     * Retorna uma lista de pessoas cadastradas no espaço
      * de café através da associação criada pela classe CoffeeRoomPerson
      * e pela etapa.
      * @param stage A etapa do evento.
