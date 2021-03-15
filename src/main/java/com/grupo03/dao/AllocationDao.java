@@ -1,6 +1,5 @@
 package com.grupo03.dao;
 
-
 import com.grupo03.model.CoffeeRoom;
 import com.grupo03.model.EventRoom;
 import com.grupo03.model.Person;
@@ -10,14 +9,14 @@ import com.grupo03.persistence.EntityManagerProvider;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Optional;
 
 /**
- *  Classe responsável por fazer a alocação de uma lista de pessoas
- *  em salas de eventos e em ambientes de café seguindo a Regra de Negócio
- *  "A diferença de pessoas em cada sala deverá ser de no máximo 1 pessoa.
- *  Para estimular a troca de conhecimentos, metade das pessoas precisam trocar
- *  de sala entre as duas etapas do treinamento."
+ *  Classe responsável por fazer a alocação de uma lista de pessoas em salas de
+ *  eventos e em ambientes de café seguindo a Regra de Negócio:
+ *  </br>
+ *  "A diferença de pessoas em cada sala deverá ser de no máximo 1 pessoa. Para
+ *  estimular a troca de conhecimentos, metade das pessoas precisam trocar de sala
+ *  entre as duas etapas do treinamento."
  *  @see com.grupo03.model.CoffeeRoom
  *  @see com.grupo03.model.EventRoom;
  *  @see com.grupo03.model.Person;
@@ -26,229 +25,166 @@ import java.util.Optional;
  *  @see com.grupo03.persistence.EntityManagerProvider;
  *  @see javax.persistence.EntityManager;
  *
- * {@link #alocar()} Percorre uma lista de pessoas e aloca nas salas por etapas
+ * {@link #allocate()} Percorre a lista de pessoas e aloca-as nas salas por etapas
  *
  * @author Carlos Eduardo Ribeiro (carloseduribeiro)
  * @author Guilherme Peyerl Florêncio (GuilhermePeyflo)
  * @author Tarcísio Nunes (tarcnux)
+ * @version 2.0
  */
 public class AllocationDao {
-        List<Person> listPerson;
-//        List<CoffeeRoom> listCoffeeRoom;
-//        List<EventRoom> listEventRoom;
 
-        EntityManager em = EntityManagerProvider.getEntityManager();
-
-        Integer seat;
-
-        Integer currentEventRoomId;
-        Integer lastEventRoomId;
-
-        Integer currentCoffeeRoomId;
-        Integer lastCoffeeRoomId;
-
-        EventRoomPerson personEventRoom;
-        CoffeeRoomPerson personCoffeeRoom;
-
-        CoffeeRoomDao cr = new CoffeeRoomDao();
-        EventRoomDao er = new EventRoomDao();
-
+    private static final EntityManager em = EntityManagerProvider.getEntityManager();
 
     /**
-     * Construtor do Objeto AlocationDao
-     * Inicializa uma lista de pessoas
-     * Inicializa lastCoffeeRoomId com o tamanho da lista CoffeeRoom
-     * Inicializa lastEventRoomId com o tamanho da lista EventRoom
-     * Incializa seat = 1, definindo o primeiro assento de cada sala
-     * @param listPerson
+     * Consulta a lista de pessoas cadastradas no banco de dados e faz distribuição
+     * delas nas salas de evento e ambiente de café.
      */
-    public AllocationDao(List<Person> listPerson) {
-            this.listPerson = listPerson;
-            lastCoffeeRoomId = cr.getAll().size();
-            lastEventRoomId = er.getAll().size();
-            seat = 1;
+    public static void allocate() {
 
-            currentEventRoomId = 1;
-            currentCoffeeRoomId = 1;
-        }
+        // Daos:
+        var personDao = new PersonDao();
+        var eventRoomDao = new EventRoomDao();
+        var coffeeRoomDao = new CoffeeRoomDao();
 
-    /**
-     * Método que faz a alocação da lista de pessoas nas salas, através
-     * do relacionamento entre as entidades: Person, Coffeeroom e EventRoom
-     * CoffeeRoomPerson - join entre Person e CoffeeRoom
-     * EventRoomPerson - join entre Person e EventRoom
-     */
-    public void alocar() {
+        // Define o assento da primeira pessoa da lista:
+        // Armazena o lugar/assento da pessoa na sala:
+        int seat = 1;
 
-            em.getTransaction().begin();
-        listPerson.forEach(person -> {
-            /*
-                Cada sala tem um assento com o mesmo número de todas as outras salas, ou seja:
-                sala 1 assento 1, sala 2 assento 1, sala 3 assento 1
-                sala 1 assento 2, sala 2 assento 2, sala 3 assento 2
-                sala 1 assento N, sala 2 assento N, sala 3 assento N
-            */
-            person.setSeat(seat);
+        // Busca e armazena a lista de pessoas cadastradas no banco:
+        List<Person> personList = personDao.getAll();
 
-            if(seat % 2 != 0) { //ÍMPAR
-                //Pessoa no assento ímpar não troca de sala na 2ª etapa
+        // Busca e armazena a lista de salas/espaços de café cadastradas no banco:
+        List<EventRoom> eventRoomList = eventRoomDao.getAll();
+        List<CoffeeRoom> coffeeRoomList = coffeeRoomDao.getAll();
 
-                //Alocação da pessoa na mesma sala de café etapa 1 e 2
-                CoffeeRoomDao coffeeRoomDao = new CoffeeRoomDao();
-                Optional<CoffeeRoom> objectCR = coffeeRoomDao.getById(currentCoffeeRoomId);
-               if (objectCR.isPresent()){
-                   CoffeeRoom coffeeRoom = objectCR.get();
-                   personCoffeeRoom = new CoffeeRoomPerson(person, coffeeRoom, 1);
-                   personCoffeeRoom = em.merge(personCoffeeRoom);
-                   em.persist(personCoffeeRoom);
+        // Armazena o índice da última sala/espaço de café cadastrada:
+        int lastEventRoomIndex = eventRoomList.size() -1;
+        int coffeeEventRoomIndex = coffeeRoomList.size() -1;
 
-                   personCoffeeRoom = new CoffeeRoomPerson(person, coffeeRoom, 2);
-                   personCoffeeRoom = em.merge(personCoffeeRoom);
-                   em.persist(personCoffeeRoom);
-               }
+        // Armazena o índice das salas/espaçoa de café:
+        int eventRoomIndex = 0;
+        int coffeeRoomIndex = 0;
 
-                //Alocação da pessoa na mesma sala de Evento etapa 1 e 2
-                EventRoomDao eventRoomDao = new EventRoomDao();
-                Optional<EventRoom> objectER = eventRoomDao.getById(currentEventRoomId);
-                if (objectER.isPresent()){
-                    EventRoom eventRoom = objectER.get();
-                    personEventRoom = new EventRoomPerson(person, eventRoom, 1);
-                    personEventRoom = em.merge(personEventRoom);
-                    em.persist(personEventRoom);
+        // Iniciar a trasação com o banco para realizar as operações:
+        em.getTransaction().begin();
 
-                    personEventRoom = new EventRoomPerson(person, eventRoom, 2);
-                    personEventRoom = em.merge(personEventRoom);
-                    em.persist(personEventRoom);
-                }
+        /*
+            Percorre a lista de pessoas para alocá-las nas salas:
+         */
+        for (Person person : personList) {
 
-            } else { //PAR
-                /*
-                    Pessoa no assento par troca de sala na 2ª etapa
-                    Etapa 1 - Sala atual Café atual
-                    Etapa 2 - Próxima sala  próximo Café
-                 */
+            person.setSeat(seat);   // Atribui o lugar à pessoa.
 
-                //Alocação da pessoa na sala de café atual etapa 1
-                CoffeeRoomDao coffeeRoomDao = new CoffeeRoomDao();
-                Optional<CoffeeRoom> objectCR = coffeeRoomDao.getById(currentCoffeeRoomId);
-                if (objectCR.isPresent()){
-                    CoffeeRoom coffeeRoom = objectCR.get();
-                    personCoffeeRoom = new CoffeeRoomPerson(person, coffeeRoom, 1);
-                    personCoffeeRoom = em.merge(personCoffeeRoom);
-                    em.persist(personCoffeeRoom);
-                }
+            // As pessoas que serão alocadas nos assentos ímpares não mudarão de sala na mudança de etapas:
+            if (seat % 2 == 1) {
+                // Instancia a sala atual na lista pelo índice para fazer a associação:
+                var eventRoom = eventRoomList.get(eventRoomIndex);
 
-                //Alocação da pessoa na sala de evento atual etapa 1
-                EventRoomDao eventRoomDao = new EventRoomDao();
-                Optional<EventRoom> objectER = eventRoomDao.getById(currentEventRoomId);
-                if (objectER.isPresent()){
-                    EventRoom eventRoom = objectER.get();
-                    personEventRoom = new EventRoomPerson(person, eventRoom, 1);
-                    personEventRoom =  em.merge(personEventRoom);
-                    em.persist(personEventRoom);
-                }
+                // Faz a associação da sala:
+                EventRoomPerson eventRoomPerson;
+                eventRoomPerson = new EventRoomPerson(person, eventRoom, 1);
+                em.merge(eventRoomPerson);
+                eventRoomPerson = new EventRoomPerson(person, eventRoom, 2);
+                em.merge(eventRoomPerson);
+
+                // Instancia o espaço de café atual na lista pelo índice para fazer a associação:
+                var coffeeRoom = coffeeRoomList.get(coffeeRoomIndex);
+
+                // Faz a associação do espaço de fafé:
+                CoffeeRoomPerson coffeeRoomPerson;
+                coffeeRoomPerson = new CoffeeRoomPerson(person, coffeeRoom, 1);
+                em.merge(eventRoomPerson);
+                coffeeRoomPerson = new CoffeeRoomPerson(person, coffeeRoom, 2);
+                em.merge(coffeeRoomPerson);
 
                 /*
-                    Preparar para pegar a próxima sala
-                    Como a próxima sala pode não existir, se estouraR a lista
-                    temos que validar isso para saber qual é a próxima sala, mas
-                    sem incrementar, pois não estamos rotacionando sala ainda
+                    Verifica se alcançou o índice máximo da lista de salas.
+                    Se alcançar o índice é resetado e o assento incrementado.
                  */
-
-                Optional<EventRoom> objectERStage2;
-                if(currentEventRoomId == lastEventRoomId){
-                    /*
-                        Aqui acontece o estouro de Lista se incrementar
-                        Pegando a sala 1 de evento da lista para Stage 2
-                     */
-                    objectERStage2 = eventRoomDao.getById(1);
-                    if (objectERStage2.isPresent()){
-                        EventRoom eventRoom = objectERStage2.get();
-                        personEventRoom = new EventRoomPerson(person, eventRoom, 2);
-                        personEventRoom = em.merge(personEventRoom);
-                        em.persist(personEventRoom);
-                    }
-
-
+                if (eventRoomIndex < lastEventRoomIndex) {
+                    eventRoomIndex += 1;
                 } else {
-                    /*
-                        Como não é a última sala, a próxima sala é +1
-                        Mas sem incrementar, não é hora disso
-                        Pegando a PRÓXIMA sala de evento da lista para Stage 2
-                     */
-                    objectERStage2 = eventRoomDao.getById(currentEventRoomId + 1);
-                    if (objectERStage2.isPresent()){
-                        EventRoom eventRoom = objectERStage2.get();
-                        personEventRoom = new EventRoomPerson(person, eventRoom, 2);
-                        personEventRoom = em.merge(personEventRoom);
-                        em.persist(personEventRoom);
-                    }
+                    eventRoomIndex = 0;
+                    seat++;
                 }
 
-                Optional<CoffeeRoom> objectCRStage2;
-                if(currentCoffeeRoomId == lastCoffeeRoomId) {
-                    /*
-                        Aqui acontece o estouro de Lista se incrementar
-                        Pegando o ambiente de café 1 da lista para Stage 2
-                     */
-                    objectCRStage2 = coffeeRoomDao.getById(1);
-                    if (objectCRStage2.isPresent()){
-                        CoffeeRoom coffeeRoom = objectCRStage2.get();
-                        personCoffeeRoom = new CoffeeRoomPerson(person, coffeeRoom, 2);
-                        personCoffeeRoom = em.merge(personCoffeeRoom);
-                        em.persist(personCoffeeRoom);
-                    }
+            } else {    // Pessoas no assento par troca de sala na segunda etapa:
+
+                // Armazena uma insância das classes para fazer a associação:
+                EventRoomPerson eventRoomPerson;
+                CoffeeRoomPerson coffeeRoomPerson;
+
+                // Instancia a sala atual na lista pelo índice para fazer a associação:
+                var eventRoom = eventRoomList.get(eventRoomIndex);
+
+                // Aloca a pessoa na sala na primeira etapa:
+                eventRoomPerson = new EventRoomPerson(person, eventRoom, 1);
+                em.merge(eventRoomPerson);
+
+                // Instancia a sala atual na lista pelo índice para fazer a associação:
+                var coffeeRoom = coffeeRoomList.get(coffeeRoomIndex);
+
+                // Aloca a pessoa no espaço de café na primeira etapa:
+                coffeeRoomPerson = new CoffeeRoomPerson(person, coffeeRoom, 1);
+                em.merge(coffeeRoomPerson);
+
+                EventRoom nextEventRoom;
+                // Verifica se está na ultima sala da lista:
+                if (eventRoomIndex == lastEventRoomIndex) {
+                    // Indice 0 pois eventRoomIndex é o último índice do laço for:
+                    nextEventRoom = eventRoomList.get(0);
+
+                    // Aloca a pessoa na segunda etapa:
+                    eventRoomPerson = new EventRoomPerson(person, nextEventRoom, 2);
+                    em.merge(eventRoomPerson);
 
                 } else {
-                    /*
-                        Como não é o último ambiente, o próximo ambiente é +1
-                        Mas sem incrementar, não é hora disso
-                        Pegando o PRÓXIMO ambiente de café da lista para Stage 2
-                     */
-                    objectCRStage2 = coffeeRoomDao.getById(currentCoffeeRoomId + 1);
-                    if (objectCRStage2.isPresent()){
-                        CoffeeRoom coffeeRoom = objectCRStage2.get();
-                        personCoffeeRoom = new CoffeeRoomPerson(person, coffeeRoom, 2);
-                        personCoffeeRoom = em.merge(personCoffeeRoom);
-                        em.persist(personCoffeeRoom);
-                    }
+                    // Instancia a pŕoxima sala:
+                    nextEventRoom = eventRoomList.get(eventRoomIndex + 1);
+
+                    // Aloca a pessoa na segunda etapa:
+                    eventRoomPerson = new EventRoomPerson(person, nextEventRoom, 2);
+                    em.merge(eventRoomPerson);
+
                 }
+
+                CoffeeRoom nextCoffeeRoom;
+                // Verifica se está na ultima sala da lista:
+                if (coffeeRoomIndex == coffeeEventRoomIndex) {
+                    // Indice 0 pois eventRoomIndex é o último índice do laço for:
+                    nextCoffeeRoom = coffeeRoomList.get(0);
+
+                    // Aloca a pessoa na segunda etapa:
+                    coffeeRoomPerson = new CoffeeRoomPerson(person, nextCoffeeRoom, 2);
+                    em.merge(coffeeRoomPerson);
+
+                } else {
+                    // Instancia a pŕoxima sala:
+                    nextCoffeeRoom = coffeeRoomList.get(coffeeRoomIndex + 1);
+
+                    // Aloca a pessoa na segunda etapa:
+                    coffeeRoomPerson = new CoffeeRoomPerson(person, nextCoffeeRoom, 2);
+                    em.merge(coffeeRoomPerson);
+
+                }
+
+                /*
+                    Verifica se alcançou o índice máximo da lista de espaço de café ou salas.
+                    Se alcançar o índice é resetado e o assento incrementado.
+                 */
+                eventRoomIndex = eventRoomIndex < lastEventRoomIndex ? ++eventRoomIndex : 0;
+                coffeeRoomIndex = coffeeRoomIndex < lastEventRoomIndex ? ++coffeeRoomIndex : 0;
+                seat = eventRoomIndex < lastEventRoomIndex ? seat : ++seat;
 
             }
 
-            //Incrementando para a próxima sala sem mudar o assento (seat) ainda
-            currentEventRoomId++;
-            currentCoffeeRoomId++;
+        }
 
-            /*
-                Vamos verificar se passou da última sala e então mudamos o assento
-                Imagina que temos duas salas, teremos então:
-                assento 1 na sala 1 e assento 1 na sala 2
-                só então passa para o assento 2
-                 assento 2 na sala 1 e assento 2 na sala 2
-             */
-            seat = (currentEventRoomId > lastEventRoomId) ? ++ seat : seat;
-
-            /*
-                Reset índice da Sala de Eventos
-                Se chegou na última sala, devemos dar um reset no índice para voltar à primeira sala
-             */
-
-            currentEventRoomId = (currentEventRoomId > lastEventRoomId) ?
-                    1 : currentEventRoomId;
-
-            /*
-                Reset índice do Ambiente de Café
-                Se chegou no último ambiente, devemos dar um reset no índice para voltar ao primeiro ambiente
-             */
-
-            currentCoffeeRoomId = (currentCoffeeRoomId > lastCoffeeRoomId) ?
-                    1 : currentCoffeeRoomId;
-
-
-        });
+        // Faz o commit das operações e fecha o EntityManager:
         em.getTransaction().commit();
         em.close();
-    }
+
+    }   // fim allocate();
 
 }
