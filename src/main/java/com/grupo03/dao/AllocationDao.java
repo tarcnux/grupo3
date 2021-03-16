@@ -168,14 +168,15 @@ public class AllocationDao {
                 }
 
                 /*
-                    Verifica se alcançou o índice máximo da lista de espaço de café ou salas.
-                    Se alcançar o índice é resetado e o assento incrementado.
+                    Verifica se alcançou o índice máximo da lista de espaço de café ou salas
+                    para resetar o índice:
                  */
                 eventRoomIndex = eventRoomIndex < lastEventRoomIndex ? ++eventRoomIndex : 0;
                 coffeeRoomIndex = coffeeRoomIndex < coffeeEventRoomIndex ? ++coffeeRoomIndex : 0;
-                seat = eventRoomIndex < lastEventRoomIndex ? seat : ++seat;
 
             }
+            // Seja 0, incrementa 1 para o próxima assento:
+            seat = eventRoomIndex == 0 ? ++seat : seat;
 
         }
 
