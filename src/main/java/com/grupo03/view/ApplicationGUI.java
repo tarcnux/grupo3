@@ -280,11 +280,11 @@ public class ApplicationGUI {
             }else {
                 System.out.println("Etapa 1 \n\t| Nome \t\t\t\t| Assento |");
                 ev1.getPersonList(1).forEach(e ->
-                        System.out.println("\t| " + e.getName() + " " + e.getLastname() + " \t\t\t|" + e.getSeat() + " |"));
+                        System.out.printf("\t|%-20s | %s |\n",e.getName() +" "+ e.getLastname(), e.getSeat()));
                 System.out.println("");
                 System.out.println("Etapa 2 \n\t| Nome \t\t\t\t| Assento |");
                 ev1.getPersonList(2).forEach(e ->
-                        System.out.println("\t| " + e.getName() + " " + e.getLastname() + " \t\t\t| " + e.getSeat() + " |"));
+                        System.out.printf("\t|%-20s | %s |\n",e.getName() +" "+ e.getLastname(), e.getSeat()));
             }
             System.out.println("\n\n\nDeseja buscar outra sala?\n1)Sim\n2)Não\nDigite:");
             opcao= teclado.nextInt();
@@ -349,11 +349,11 @@ public class ApplicationGUI {
                 }else {
                     System.out.println("Etapa 1 \n\t| Nome \t\t\t\t| Assento |");
                     ev1.getPersonList(1).forEach(e ->
-                            System.out.println("\t| " + e.getName() + " " + e.getLastname() + " \t\t\t|" + e.getSeat() + " |"));
+                            System.out.printf("\t|%-20s | %s |\n",e.getName() +" "+ e.getLastname(), e.getSeat()));
                     System.out.println("");
                     System.out.println("Etapa 2 \n\t| Nome \t\t\t\t| Assento |");
                     ev1.getPersonList(2).forEach(e ->
-                            System.out.println("\t| " + e.getName() + " " + e.getLastname() + " \t\t\t| " + e.getSeat() + " |"));
+                            System.out.printf("\t|%-20s | %s |\n",e.getName() +" "+ e.getLastname(), e.getSeat()));
                 }
                 System.out.println("\n\n\nDeseja buscar outra sala de café?\n1)Sim\n2)Não\nDigite:");
                 opcao= teclado.nextInt();
